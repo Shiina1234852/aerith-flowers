@@ -154,13 +154,20 @@ const fanArtworks = [
   { image: '/memory-cel-v3.png', title: '旧站台回望', style: '手绘赛璐璐', category: '动画', alt: '爱丽丝在旧站台回望的赛璐璐动画画面' },
   { image: '/church-bench.png', title: '长椅上的回声', style: '动画背景 · 水粉', category: '动画', alt: '爱丽丝坐在废墟教堂的旧木长椅' },
   { image: '/church-roof.png', title: '一束天空', style: '电影哑光绘景', category: '概念艺术', alt: '爱丽丝仰望教堂屋顶局部光束' },
-  { image: '/fanart/rooftop-pixel.png', title: '暮色屋顶花园', style: '16-bit 像素绘画', category: '实验风格', alt: '爱丽丝在米德加暮色屋顶为花浇水的像素画' },
   { image: '/fanart/lifestream-ukiyoe.png', title: '星之川', style: '浮世绘木版', category: '实验风格', alt: '爱丽丝站在生命之流与百合之间的浮世绘' },
   { image: '/fanart/coast-pastel.png', title: '第一次看海', style: '粉彩 · 彩铅', category: '传统绘画', alt: '爱丽丝赤脚走在海边的粉彩画' },
   { image: '/fanart/midgar-risograph.png', title: '钢铁之花', style: '套色绢印 · Risograph', category: '实验风格', alt: '爱丽丝与米德加钢铁结构的复古套色海报' },
+  { image: '/fanart/church-ink-wash.png', title: '光落在花上', style: '水墨 · 矿物颜料', category: '传统绘画', alt: '水墨与矿物颜料风格的爱丽丝站在教堂光束与百合之间' },
+  { image: '/fanart/church-stained-glass.png', title: '花窗圣所', style: '彩绘玻璃', category: '工艺影像', alt: '彩绘玻璃风格的爱丽丝提着花篮站在教堂中央' },
+  { image: '/fanart/midgar-art-deco.png', title: '米德加之花', style: '装饰艺术 · 金箔', category: '装饰艺术', alt: '装饰艺术海报风格的爱丽丝与米德加花卉几何构图' },
+  { image: '/fanart/church-romantic-oil.png', title: '旧日温室', style: '浪漫主义油画', category: '传统绘画', alt: '古典油画风格的爱丽丝在长满花草的教堂中采花' },
+  { image: '/fanart/open-sky-pastel.png', title: '第一次走向天空', style: '粉彩 · 彩色铅笔', category: '传统绘画', alt: '粉彩画风格的爱丽丝赤脚走过晨光花田' },
+  { image: '/fanart/planet-cyanotype.png', title: '星球蓝图', style: '蓝晒 · 石墨', category: '实验风格', alt: '蓝晒植物志风格的爱丽丝侧身凝望黄色花朵' },
+  { image: '/fanart/church-clay-diorama.png', title: '掌心教堂', style: '定格黏土 · 微缩场景', category: '工艺影像', alt: '定格黏土微缩场景中的爱丽丝在小教堂照料百合' },
+  { image: '/fanart/rooftop-blue-hour.png', title: '雨洗过的屋顶', style: '电影感写实', category: '电影视觉', alt: '蓝调时刻的米德加屋顶花园中爱丽丝轻触花朵' },
 ];
 
-const fanFilters = ['全部', '传统绘画', '动画', '概念艺术', '实验风格'];
+const fanFilters = ['全部', '传统绘画', '动画', '概念艺术', '装饰艺术', '工艺影像', '电影视觉', '实验风格'];
 
 type ArchiveProgress = { weapons: number[]; church: number[]; cp: number[]; gallery: number[] };
 
@@ -203,8 +210,11 @@ export default function Home() {
   const [labScenario, setLabScenario] = useState(0);
   const [fanFilter, setFanFilter] = useState('全部');
   const [selectedFanArt, setSelectedFanArt] = useState<number | null>(null);
+  const [spotlightArt, setSpotlightArt] = useState(9);
   const audioRef = useRef<{ context: AudioContext; nodes: OscillatorNode[] } | null>(null);
   const visibleFanArt = fanFilter === '全部' ? fanArtworks : fanArtworks.filter((artwork) => artwork.category === fanFilter);
+  const spotlightIndex = spotlightArt % visibleFanArt.length;
+  const spotlight = visibleFanArt[spotlightIndex];
 
   useEffect(() => {
     try {
@@ -611,15 +621,19 @@ export default function Home() {
       </section>
 
       <section className="fanart-section" id="fanart">
-        <div className="fanart-heading"><div><p className="kicker">AERITH ORIGINAL ART MUSEUM</p><h2>十种笔触，<br />画同一朵花。</h2></div><p>这里与官方剧照完全分开，收录本站为爱丽丝创作的十幅非商业同人画。点击作品可进入沉浸式观画模式。</p></div>
+        <div className="fanart-heading"><div><p className="kicker">AERITH ORIGINAL ART MUSEUM</p><h2>十七种笔触，<br />画同一朵花。</h2></div><p>官方资料与同人创作在这里清晰分区。画廊现收录十七幅非商业二创，覆盖传统绘画、工艺、装饰艺术与电影视觉；像素风已从策展中移除。</p></div>
+        <article className="fanart-spotlight" style={{ '--spotlight-image': `url(${assetUrl(spotlight.image)})` } as React.CSSProperties}>
+          <button type="button" className="spotlight-image" onClick={() => openFanArtwork(spotlightIndex)} aria-label={`查看精选作品：${spotlight.title}`}><img src={assetUrl(spotlight.image)} alt={spotlight.alt} /></button>
+          <div className="spotlight-copy"><small>CURATOR&apos;S SPOTLIGHT · {String(spotlightIndex + 1).padStart(2, '0')}</small><h3>{spotlight.title}</h3><p>{spotlight.style}</p><div><button type="button" onClick={() => setSpotlightArt((spotlightIndex - 1 + visibleFanArt.length) % visibleFanArt.length)} aria-label="上一幅精选作品">←</button><span>{spotlightIndex + 1} / {visibleFanArt.length}</span><button type="button" onClick={() => setSpotlightArt((spotlightIndex + 1) % visibleFanArt.length)} aria-label="下一幅精选作品">→</button><button type="button" className="spotlight-open" onClick={() => openFanArtwork(spotlightIndex)}>沉浸观画 ↗</button></div></div>
+        </article>
         <div className="fanart-toolbar">
-          <div role="group" aria-label="筛选二创画风">{fanFilters.map((filter) => <button type="button" key={filter} className={fanFilter === filter ? 'active' : ''} onClick={() => { setFanFilter(filter); setSelectedFanArt(null); }}>{filter}</button>)}</div>
-          <button type="button" className="random-art" onClick={() => openFanArtwork(Math.floor(Math.random() * visibleFanArt.length))}>✦ 随机看一幅</button>
+          <div role="group" aria-label="筛选二创画风">{fanFilters.map((filter) => <button type="button" key={filter} className={fanFilter === filter ? 'active' : ''} onClick={() => { setFanFilter(filter); setSelectedFanArt(null); setSpotlightArt(0); }}>{filter}</button>)}</div>
+          <button type="button" className="random-art" onClick={() => { const randomIndex = Math.floor(Math.random() * visibleFanArt.length); setSpotlightArt(randomIndex); openFanArtwork(randomIndex); }}>✦ 随机看一幅</button>
         </div>
         <div className="fanart-grid">
-          {visibleFanArt.map((artwork, index) => <button type="button" className={`fanart-card fanart-${index + 1}`} key={artwork.image} onClick={() => openFanArtwork(index)}><img src={assetUrl(artwork.image)} alt={artwork.alt} loading="lazy" decoding="async" /><span><small>{String(index + 1).padStart(2, '0')} · {artwork.style}</small><b>{artwork.title}</b><i>VIEW FULL ART ↗</i></span></button>)}
+          {visibleFanArt.map((artwork, index) => <button type="button" className={`fanart-card fanart-${index + 1} ${spotlightIndex === index ? 'curator-selected' : ''}`} key={artwork.image} onClick={() => { setSpotlightArt(index); openFanArtwork(index); }}><img src={assetUrl(artwork.image)} alt={artwork.alt} loading="lazy" decoding="async" /><span><small>{String(index + 1).padStart(2, '0')} · {artwork.style}</small><b>{artwork.title}</b><i>VIEW FULL ART ↗</i></span></button>)}
         </div>
-        <p className="fanart-credit">TEN ORIGINAL FAN WORKS · CREATED FOR FLOWERS BENEATH THE SKY · 非商业同人创作</p>
+        <p className="fanart-credit">SEVENTEEN ORIGINAL FAN WORKS · CREATED FOR FLOWERS BENEATH THE SKY · 非商业同人创作</p>
       </section>
 
       <section className="versions-section" id="versions">
