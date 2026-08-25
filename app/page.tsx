@@ -2,6 +2,8 @@
 
 import { FormEvent, useEffect, useRef, useState } from 'react';
 
+const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+
 const memories = [
   {
     id: 'rain',
@@ -382,7 +384,7 @@ export default function Home() {
         </div>
       </section>
       <section className="hero" id="home">
-        <img className="hero-photo" src="/hero-cover.png" alt="躺在黄色花海中向前伸手的爱丽丝" fetchPriority="high" />
+        <img className="hero-photo" src={assetUrl('/hero-cover.png')} alt="躺在黄色花海中向前伸手的爱丽丝" fetchPriority="high" />
         <nav className="nav" aria-label="主导航">
           <a className="brand" href="#home" aria-label="返回首页">
             <span className="brand-flower">✦</span>
@@ -425,7 +427,7 @@ export default function Home() {
         <div className="story-grid">
           <div className="story-portrait">
             <div className="card-corners" aria-hidden="true"><i /><i /><i /><i /></div>
-            <img src="/aerith-art-nouveau-card.png" alt="完整保留花卉边框的新艺术风格爱丽丝收藏卡" loading="lazy" decoding="async" />
+            <img src={assetUrl('/aerith-art-nouveau-card.png')} alt="完整保留花卉边框的新艺术风格爱丽丝收藏卡" loading="lazy" decoding="async" />
             <span className="portrait-caption"><b>NO. 005</b> ART NOUVEAU · ARCHIVE CARD</span>
           </div>
           <div className="story-copy">
@@ -450,7 +452,7 @@ export default function Home() {
             <p className="archive-lead">“花，想买吗？”——一句再普通不过的招呼，让这位能听见星球声音的女孩先以普通人的姿态走进我们的记忆。</p>
           </div>
           <div className="archive-headshot">
-            <img src="/official/aerith-rebirth-headshot.png" alt="最终幻想VII 重生官方爱丽丝头像" loading="lazy" decoding="async" />
+            <img src={assetUrl('/official/aerith-rebirth-headshot.png')} alt="最终幻想VII 重生官方爱丽丝头像" loading="lazy" decoding="async" />
             <span>OFFICIAL CHARACTER VISUAL · REBIRTH</span>
           </div>
         </div>
@@ -558,7 +560,7 @@ export default function Home() {
             ))}
           </div>
           <article className="cp-card" role="tabpanel">
-            <div className="cp-photo"><img src="/hero-cover.png" alt="黄色花海中的爱丽丝伸出手" loading="lazy" decoding="async" /><span>“花，想买吗？”</span></div>
+            <div className="cp-photo"><img src={assetUrl('/hero-cover.png')} alt="黄色花海中的爱丽丝伸出手" loading="lazy" decoding="async" /><span>“花，想买吗？”</span></div>
             <div className="cp-story">
               <p>{cpMoments[activeCp].no} · {cpMoments[activeCp].place}</p><h3>{cpMoments[activeCp].title}</h3>
               <div className="view-toggle" role="group" aria-label="选择故事视角"><button type="button" className={cpView === 'cloud' ? 'active' : ''} onClick={() => setCpView('cloud')}>克劳德视角</button><button type="button" className={cpView === 'aerith' ? 'active' : ''} onClick={() => setCpView('aerith')}>爱丽丝视角</button></div>
@@ -576,7 +578,7 @@ export default function Home() {
           <p>选择一个角落，发现留在这里的小小回声。</p>
         </div>
         <div className="discovery-stage">
-          <img key={discoveries[discovery].image} className="stage-image" src={discoveries[discovery].image} alt={discoveries[discovery].alt} loading="lazy" decoding="async" />
+          <img key={discoveries[discovery].image} className="stage-image" src={assetUrl(discoveries[discovery].image)} alt={discoveries[discovery].alt} loading="lazy" decoding="async" />
           <span className="stage-medium">{discoveries[discovery].medium}</span>
           <div className="discovery-note" aria-live="polite">
             <span>{discoveries[discovery].icon}</span>
@@ -600,7 +602,7 @@ export default function Home() {
         <div className="gallery-grid">
           {gallery.map((shot, index) => (
             <button type="button" className={`gallery-shot shot-${index + 1}`} key={shot.image} onClick={() => openGallery(index)}>
-              <img src={shot.image} alt={shot.note} loading="lazy" decoding="async" />
+              <img src={assetUrl(shot.image)} alt={shot.note} loading="lazy" decoding="async" />
               <span><small>{String(index + 1).padStart(2, '0')} · {shot.source}</small><b>{shot.title}</b><i>{shot.note}</i></span>
             </button>
           ))}
@@ -615,7 +617,7 @@ export default function Home() {
           <button type="button" className="random-art" onClick={() => openFanArtwork(Math.floor(Math.random() * visibleFanArt.length))}>✦ 随机看一幅</button>
         </div>
         <div className="fanart-grid">
-          {visibleFanArt.map((artwork, index) => <button type="button" className={`fanart-card fanart-${index + 1}`} key={artwork.image} onClick={() => openFanArtwork(index)}><img src={artwork.image} alt={artwork.alt} loading="lazy" decoding="async" /><span><small>{String(index + 1).padStart(2, '0')} · {artwork.style}</small><b>{artwork.title}</b><i>VIEW FULL ART ↗</i></span></button>)}
+          {visibleFanArt.map((artwork, index) => <button type="button" className={`fanart-card fanart-${index + 1}`} key={artwork.image} onClick={() => openFanArtwork(index)}><img src={assetUrl(artwork.image)} alt={artwork.alt} loading="lazy" decoding="async" /><span><small>{String(index + 1).padStart(2, '0')} · {artwork.style}</small><b>{artwork.title}</b><i>VIEW FULL ART ↗</i></span></button>)}
         </div>
         <p className="fanart-credit">TEN ORIGINAL FAN WORKS · CREATED FOR FLOWERS BENEATH THE SKY · 非商业同人创作</p>
       </section>
@@ -631,7 +633,7 @@ export default function Home() {
             ))}
           </div>
           <article className="version-card" role="tabpanel">
-            <div className="version-visual"><img src={versions[activeVersion].image} alt={`${versions[activeVersion].label}中的爱丽丝形象`} loading="lazy" decoding="async" /></div>
+            <div className="version-visual"><img src={assetUrl(versions[activeVersion].image)} alt={`${versions[activeVersion].label}中的爱丽丝形象`} loading="lazy" decoding="async" /></div>
             <div><small>{versions[activeVersion].year} · {versions[activeVersion].label}</small><h3>{versions[activeVersion].title}</h3><p>{versions[activeVersion].text}</p></div>
           </article>
         </div>
@@ -653,7 +655,7 @@ export default function Home() {
           </div>
           <article className="memory-card" role="tabpanel" style={{ '--memory-color': memories[activeMemory].color } as React.CSSProperties}>
             <div className="memory-art">
-              <img src={memories[activeMemory].image} alt={memories[activeMemory].alt} loading="lazy" decoding="async" />
+              <img src={assetUrl(memories[activeMemory].image)} alt={memories[activeMemory].alt} loading="lazy" decoding="async" />
               <i aria-hidden="true">✦</i><b aria-hidden="true">{memories[activeMemory].number}</b>
             </div>
             <div className="memory-text">
@@ -739,7 +741,7 @@ export default function Home() {
           <button type="button" className="lightbox-close" onClick={() => setSelectedShot(null)} aria-label="关闭完整剧照">×</button>
           <button type="button" className="lightbox-arrow prev" onClick={(event) => { event.stopPropagation(); openGallery((selectedShot - 1 + gallery.length) % gallery.length); }} aria-label="上一张剧照">←</button>
           <figure onClick={(event) => event.stopPropagation()}>
-            <img src={gallery[selectedShot].image} alt={gallery[selectedShot].note} />
+            <img src={assetUrl(gallery[selectedShot].image)} alt={gallery[selectedShot].note} />
             <figcaption><span>{gallery[selectedShot].source} · OFFICIAL STILL</span><b>{gallery[selectedShot].title}</b><p>{gallery[selectedShot].note}</p></figcaption>
           </figure>
           <button type="button" className="lightbox-arrow next" onClick={(event) => { event.stopPropagation(); openGallery((selectedShot + 1) % gallery.length); }} aria-label="下一张剧照">→</button>
@@ -750,7 +752,7 @@ export default function Home() {
         <div className="fanart-lightbox" role="dialog" aria-modal="true" aria-label={visibleFanArt[selectedFanArt].title} onClick={() => setSelectedFanArt(null)}>
           <button type="button" className="fanlight-close" onClick={() => setSelectedFanArt(null)} aria-label="关闭二创作品">×</button>
           <button type="button" className="fanlight-arrow prev" onClick={(event) => { event.stopPropagation(); openFanArtwork((selectedFanArt - 1 + visibleFanArt.length) % visibleFanArt.length); }} aria-label="上一幅作品">←</button>
-          <figure onClick={(event) => event.stopPropagation()}><img src={visibleFanArt[selectedFanArt].image} alt={visibleFanArt[selectedFanArt].alt} /><figcaption><small>{visibleFanArt[selectedFanArt].style} · ORIGINAL FAN WORK</small><h3>{visibleFanArt[selectedFanArt].title}</h3><p>{selectedFanArt + 1} / {visibleFanArt.length}</p></figcaption></figure>
+          <figure onClick={(event) => event.stopPropagation()}><img src={assetUrl(visibleFanArt[selectedFanArt].image)} alt={visibleFanArt[selectedFanArt].alt} /><figcaption><small>{visibleFanArt[selectedFanArt].style} · ORIGINAL FAN WORK</small><h3>{visibleFanArt[selectedFanArt].title}</h3><p>{selectedFanArt + 1} / {visibleFanArt.length}</p></figcaption></figure>
           <button type="button" className="fanlight-arrow next" onClick={(event) => { event.stopPropagation(); openFanArtwork((selectedFanArt + 1) % visibleFanArt.length); }} aria-label="下一幅作品">→</button>
           <p className="fanlight-hint">← → 切换作品 · ESC 返回画廊</p>
         </div>
