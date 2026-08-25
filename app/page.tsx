@@ -50,6 +50,56 @@ const seedTypes = [
   { name: '祝福', glyph: '❋', color: '#f2eee4' },
 ];
 
+const dossier = [
+  ['姓名', '爱丽丝·盖恩斯巴勒', 'AERITH GAINSBOROUGH'],
+  ['身份', '伍番街贫民窟的卖花女孩', 'FLOWER SELLER'],
+  ['血脉', '最后的古代种（赛特拉）', 'THE LAST CETRA'],
+  ['武器', '长杖', 'STAFF'],
+  ['战斗定位', '远程魔法 · 治疗 · 支援', 'RANGED MAGE'],
+  ['象征', '黄色花朵 · 白魔晶石 · 星球', 'FLOWER & PLANET'],
+];
+
+const relations = [
+  { name: '克劳德', tag: 'BODYGUARD', mark: 'C', text: '从壹号魔晄炉附近的一朵花，到教堂里以“一次约会”为报酬的护卫约定。轻快的玩笑，逐渐成为共同面对命运的信任。' },
+  { name: '蒂法', tag: 'COMPANION', mark: 'T', text: '并肩离开米德加的旅伴。她们分享秘密、互相打气，也在旅途中建立起不应被简化成“情敌”的女性友谊。' },
+  { name: '扎克斯', tag: 'FIRST LOVE', mark: 'Z', text: '一段与雨、教堂和粉色缎带相连的旧日记忆。即使时间向前，它仍以未寄出的信和似曾相识的动作留下回声。' },
+  { name: '艾米娜', tag: 'FAMILY', mark: 'E', text: '收养并守护她长大的母亲。伍番街的家、满院鲜花和一张温暖的餐桌，让“古代种”首先能够作为普通女孩生活。' },
+  { name: '赤红十三', tag: 'PLANET', mark: 'R', text: '同样被神罗囚禁、也同样能感知超越人类经验的事物。旅途中，他们对星球与生命循环有着格外深的理解。' },
+  { name: '曾与神罗', tag: 'PURSUIT', mark: 'S', text: '神罗长期监视她，并试图借古代种的力量寻找“约定之地”。这条追捕线把她安静的日常推向了世界性的危机。' },
+];
+
+const journey = [
+  { no: '01', place: '伍番街贫民窟', title: '在没有天空的地方种花', text: '她与养母艾米娜生活在伍番街，以卖花维生。破旧教堂里不可思议的花田，是她最日常也最神秘的风景。' },
+  { no: '02', place: '贫民窟教堂', title: '从屋顶落下的相遇', text: '克劳德从破损屋顶坠入花田。追兵、护卫约定与一连串玩笑，把偶然相逢变成了一段共同旅程。' },
+  { no: '03', place: '米德加之外', title: '第一次走向广阔天空', text: '被救出神罗大厦后，她终于离开钢铁城市，穿过草原、海岸、森林与峡谷，追寻自己与星球的联系。' },
+  { no: '04', place: '星球深处', title: '她所听见的声音', text: '作为赛特拉，她能感受生命之流与星球的呼唤。旅程越接近真相，个人愿望与守护星球的命运便越难分开。', spoiler: true },
+];
+
+const versions = [
+  { year: '1997', label: 'FINAL FANTASY VII', title: '多边形时代的经典形象', text: '在原作里，她以贫民窟卖花女孩的身份登场。有限的模型与预渲染背景，反而让花、教堂和粉色长裙成为极鲜明的视觉记忆。', image: '/official/aerith-ffvii-original.jpg' },
+  { year: '2007', label: 'CRISIS CORE', title: '教堂与缎带的前日故事', text: '前传把时间拉回更早的米德加，补写她与扎克斯的相遇，也让花车、二十三封信和粉色缎带拥有了新的情感重量。', image: '/memory-cel-v3.png' },
+  { year: '2020', label: 'FINAL FANTASY VII REMAKE', title: '被重新听见的花语', text: '写实演出放大了她的俏皮、敏锐与坚韧。更细微的表情和动作，让“知道得比说出的更多”成为角色魅力的一部分。', image: '/church-scene-v2.png' },
+  { year: '2024', label: 'FINAL FANTASY VII REBIRTH', title: '走出米德加，走进世界', text: '广阔世界给了她新的旅途经验：骑陆行鸟、看海、与伙伴并肩作战，也让围绕命运的悬念成为叙事核心。', image: '/official/aerith-rebirth-headshot.png' },
+];
+
+const gallery = [
+  { image: '/official/aerith-ice-magic.jpg', title: '魔法绽放', note: '爱丽丝在战斗中施放冰属性魔法', source: 'BATTLE' },
+  { image: '/official/party-chocobos.jpg', title: '草原同行', note: '一行人骑乘陆行鸟穿越格拉斯兰', source: 'WORLD' },
+  { image: '/official/rebirth-grasslands.jpg', title: '米德加之外', note: '离开钢铁都市后的第一片辽阔草原', source: 'WORLD' },
+  { image: '/official/rebirth-costa-del-sol.jpg', title: '太阳海岸', note: '旅途里明亮而短暂的度假时光', source: 'WORLD' },
+  { image: '/official/rebirth-gongaga.jpg', title: '贡加加', note: '被魔晄与记忆缠绕的繁茂密林', source: 'WORLD' },
+  { image: '/official/rebirth-cosmo-canyon.jpg', title: '星陨峡谷', note: '仰望星空、理解星球的古老圣地', source: 'WORLD' },
+];
+
+const symbols = [
+  { glyph: '✦', name: '黄色花朵', en: 'YELLOW FLOWERS', text: '在钢铁覆盖的城市里仍然向光生长，是她最温柔也最坚定的自我介绍。' },
+  { glyph: '⌂', name: '贫民窟教堂', en: 'THE CHURCH', text: '废墟、阳光与花田共同构成避难所；每一次重返，都像记忆重新开花。' },
+  { glyph: '◌', name: '白魔晶石', en: 'WHITE MATERIA', text: '一件安静的遗物，也是她与母亲、古代种知识和星球使命之间的连接。' },
+  { glyph: '≋', name: '生命之流', en: 'LIFESTREAM', text: '生命归于星球、记忆继续流动。它让“离开”不只是终点，也可能是另一种陪伴。' },
+  { glyph: '△', name: '天空', en: 'THE SKY', text: '她向往外面的世界，也坦言天空令自己不安；自由与未知在同一个意象里相遇。' },
+  { glyph: '∞', name: '约定之地', en: 'PROMISED LAND', text: '神罗把它理解为可掠夺的资源，而赛特拉的传统则指向更精神性的归宿。' },
+];
+
 type PlantedFlower = { id: number; message: string; seed: number; x: number };
 
 export default function Home() {
@@ -60,6 +110,10 @@ export default function Home() {
   const [flowers, setFlowers] = useState<PlantedFlower[]>([]);
   const [soundOn, setSoundOn] = useState(false);
   const [notice, setNotice] = useState('');
+  const [activeRelation, setActiveRelation] = useState(0);
+  const [activeVersion, setActiveVersion] = useState(3);
+  const [spoilersOn, setSpoilersOn] = useState(false);
+  const [selectedShot, setSelectedShot] = useState<number | null>(null);
   const audioRef = useRef<{ context: AudioContext; nodes: OscillatorNode[] } | null>(null);
 
   useEffect(() => {
@@ -126,9 +180,10 @@ export default function Home() {
             <span>FLOWERS<br />BENEATH THE SKY</span>
           </a>
           <div className="nav-links">
-            <a href="#story">她的故事</a>
+            <a href="#archive">人物档案</a>
+            <a href="#journey">旅程</a>
+            <a href="#gallery">游戏剧照</a>
             <a href="#memories">记忆</a>
-            <a href="#garden">花园</a>
           </div>
           <a className="nav-gift" href="#garden">留下一朵花 ↗</a>
         </nav>
@@ -159,8 +214,9 @@ export default function Home() {
         <div className="section-number"><span>01</span><i /> THE FLOWER GIRL</div>
         <div className="story-grid">
           <div className="story-portrait">
-            <img src="/story-art-nouveau-v3.png" alt="新艺术风格的爱丽丝在教堂花田中提着花篮" />
-            <span className="portrait-caption">ART NOUVEAU · GOUACHE &amp; TEMPERA</span>
+            <div className="card-corners" aria-hidden="true"><i /><i /><i /><i /></div>
+            <img src="/aerith-art-nouveau-card.png" alt="完整保留花卉边框的新艺术风格爱丽丝收藏卡" />
+            <span className="portrait-caption"><b>NO. 005</b> ART NOUVEAU · ARCHIVE CARD</span>
           </div>
           <div className="story-copy">
             <p className="kicker">A FLOWER BLOOMING IN THE SLUMS</p>
@@ -174,6 +230,71 @@ export default function Home() {
           </div>
         </div>
         <button className="hidden-bloom bloom-one" aria-label="发现一朵隐藏的花" onClick={() => setNotice('你发现了藏在故事里的花。')}>✦</button>
+      </section>
+
+      <section className="archive-section" id="archive">
+        <div className="archive-intro">
+          <div>
+            <p className="kicker">CHARACTER DOSSIER · 资料编号 005</p>
+            <h2>爱丽丝·<br />盖恩斯巴勒</h2>
+            <p className="archive-lead">“花，想买吗？”——一句再普通不过的招呼，让这位能听见星球声音的女孩先以普通人的姿态走进我们的记忆。</p>
+          </div>
+          <div className="archive-headshot">
+            <img src="/official/aerith-rebirth-headshot.png" alt="最终幻想VII 重生官方爱丽丝头像" />
+            <span>OFFICIAL CHARACTER VISUAL · REBIRTH</span>
+          </div>
+        </div>
+        <div className="dossier-grid">
+          {dossier.map(([label, value, en], index) => (
+            <article key={label}><small>{String(index + 1).padStart(2, '0')} · {en}</small><span>{label}</span><h3>{value}</h3></article>
+          ))}
+        </div>
+        <div className="combat-strip">
+          <div className="combat-copy">
+            <p className="kicker">BATTLE PROFILE</p>
+            <h3>把花田变成魔法阵。</h3>
+            <p>她擅长在安全距离释放追踪攻击与魔法，并布置能强化战斗的结界。她可以在结界之间移动，以治疗和支援维持全队节奏。</p>
+          </div>
+          <div className="ability-list" aria-label="战斗倾向（本站整理）">
+            {[['魔法', 96], ['支援', 92], ['射程', 88], ['机动', 64], ['物理', 42]].map(([name, score]) => (
+              <div key={name as string}><span>{name}</span><i><b style={{ width: `${score}%` }} /></i><small>{score}</small></div>
+            ))}
+            <p>※ 为便于阅读的本站视觉化整理，并非游戏内官方数值。</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="journey-section" id="journey">
+        <div className="journey-heading">
+          <div><p className="kicker">A JOURNEY UNDER THE OPEN SKY</p><h2>从一小片花田，<br />走到星球的尽头。</h2></div>
+          <button type="button" className={spoilersOn ? 'spoiler-toggle active' : 'spoiler-toggle'} onClick={() => setSpoilersOn(!spoilersOn)} aria-pressed={spoilersOn}>
+            <span>{spoilersOn ? '剧透已开启' : '隐藏关键剧透'}</span><i>{spoilersOn ? 'ON' : 'SAFE'}</i>
+          </button>
+        </div>
+        <div className="journey-line">
+          {journey.map((item) => (
+            <article key={item.no} className={item.spoiler && !spoilersOn ? 'spoiler-card locked' : 'spoiler-card'}>
+              <span>{item.no}</span><small>{item.place}</small><h3>{item.spoiler && !spoilersOn ? '一段等待你亲自抵达的故事' : item.title}</h3>
+              <p>{item.spoiler && !spoilersOn ? '这里涉及原作与重制系列的关键情节。开启右上角的剧透开关后可阅读。' : item.text}</p>
+            </article>
+          ))}
+        </div>
+        <div className="relations-block">
+          <div className="relations-list" role="tablist" aria-label="人物关系">
+            {relations.map((relation, index) => (
+              <button key={relation.name} role="tab" aria-selected={activeRelation === index} className={activeRelation === index ? 'active' : ''} onClick={() => setActiveRelation(index)}>
+                <b>{relation.mark}</b><span>{relation.name}<small>{relation.tag}</small></span><i>↗</i>
+              </button>
+            ))}
+          </div>
+          <article className="relation-detail" role="tabpanel">
+            <p>RELATIONSHIP · {String(activeRelation + 1).padStart(2, '0')}</p>
+            <strong>{relations[activeRelation].mark}</strong>
+            <h3>{relations[activeRelation].name}</h3>
+            <small>{relations[activeRelation].tag}</small>
+            <blockquote>“{relations[activeRelation].text}”</blockquote>
+          </article>
+        </div>
       </section>
 
       <section className="church-section" aria-labelledby="church-title">
@@ -195,6 +316,39 @@ export default function Home() {
               </button>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="gallery-section" id="gallery">
+        <div className="gallery-heading">
+          <div><p className="kicker">OFFICIAL GAME STILLS</p><h2>从教堂出发，<br />世界在镜头里展开。</h2></div>
+          <p>以下画面来自 SQUARE ENIX 官方《FINAL FANTASY VII REBIRTH》角色、战斗与世界介绍页。点击可以查看完整画面。</p>
+        </div>
+        <div className="gallery-grid">
+          {gallery.map((shot, index) => (
+            <button type="button" className={`gallery-shot shot-${index + 1}`} key={shot.image} onClick={() => setSelectedShot(index)}>
+              <img src={shot.image} alt={shot.note} />
+              <span><small>{String(index + 1).padStart(2, '0')} · {shot.source}</small><b>{shot.title}</b><i>{shot.note}</i></span>
+            </button>
+          ))}
+        </div>
+        <p className="official-credit">GAME STILLS © SQUARE ENIX · CHARACTER DESIGN: TETSUYA NOMURA / ROBERTO FERRARI · 非商业同人资料展示</p>
+      </section>
+
+      <section className="versions-section" id="versions">
+        <div className="versions-heading"><p className="kicker">1997 — 2024 · APPEARANCES</p><h2>同一朵花，<br />在不同时代盛开。</h2></div>
+        <div className="versions-layout">
+          <div className="version-tabs" role="tablist" aria-label="历代形象">
+            {versions.map((version, index) => (
+              <button key={version.year} role="tab" aria-selected={activeVersion === index} className={activeVersion === index ? 'active' : ''} onClick={() => setActiveVersion(index)}>
+                <b>{version.year}</b><span>{version.label}</span><i>→</i>
+              </button>
+            ))}
+          </div>
+          <article className="version-card" role="tabpanel">
+            <div className="version-visual"><img src={versions[activeVersion].image} alt={`${versions[activeVersion].label}中的爱丽丝形象`} /></div>
+            <div><small>{versions[activeVersion].year} · {versions[activeVersion].label}</small><h3>{versions[activeVersion].title}</h3><p>{versions[activeVersion].text}</p></div>
+          </article>
         </div>
       </section>
 
@@ -223,6 +377,24 @@ export default function Home() {
               <blockquote>“{memories[activeMemory].text}”</blockquote>
             </div>
           </article>
+        </div>
+      </section>
+
+      <section className="symbols-section">
+        <div className="symbols-heading"><p className="kicker">A FIELD GUIDE TO SYMBOLS</p><h2>读懂环绕她的六种意象。</h2><p>这一部分是基于游戏叙事的主题阅读，不是唯一答案。每个意象都在不同章节里改变含义。</p></div>
+        <div className="symbols-grid">
+          {symbols.map((symbol, index) => <article key={symbol.name}><span>{symbol.glyph}</span><small>0{index + 1} · {symbol.en}</small><h3>{symbol.name}</h3><p>{symbol.text}</p></article>)}
+        </div>
+      </section>
+
+      <section className="sources-section">
+        <div><p className="kicker">ARCHIVE NOTES · OFFICIAL SOURCES</p><h2>资料从哪里来？</h2><p>角色事实与官方剧照均以 SQUARE ENIX 页面为主；诠释性文字、互动与插画由本站重新创作。点击下方条目可前往原始页面。</p></div>
+        <div className="source-links">
+          <a href="https://www.square-enix.com/ffvii/en-us/games/rebirth/characters/aerith-gainsborough/" target="_blank" rel="noreferrer"><span>01</span><b>REBIRTH · 爱丽丝官方角色档案</b><i>↗</i></a>
+          <a href="https://www.square-enix.com/ffvii/en-us/games/rebirth/battle/" target="_blank" rel="noreferrer"><span>02</span><b>REBIRTH · 战斗系统与官方剧照</b><i>↗</i></a>
+          <a href="https://www.square-enix.com/ffvii/en-us/games/rebirth/world/" target="_blank" rel="noreferrer"><span>03</span><b>REBIRTH · 世界区域与旅途剧照</b><i>↗</i></a>
+          <a href="https://na.finalfantasy.com/titles/finalfantasy7" target="_blank" rel="noreferrer"><span>04</span><b>FINAL FANTASY VII · 原作角色资料</b><i>↗</i></a>
+          <a href="https://blog.playstation.com/2024/01/29/final-fantasy-vii-rebirth-square-enix-discusses-reimagining-iconic-characters-sephiroth-and-aerith/" target="_blank" rel="noreferrer"><span>05</span><b>制作访谈 · 重塑爱丽丝与命运主题</b><i>↗</i></a>
         </div>
       </section>
 
@@ -273,9 +445,19 @@ export default function Home() {
 
       <footer>
         <span>FLOWERS BENEATH THE SKY</span>
-        <p>非商业同人纪念作品 · 页面视觉与声音均为原创表达</p>
+        <p>非商业同人纪念作品 · 二创视觉与官方游戏资料已分区标注</p>
         <span>MADE WITH MEMORIES · 2026</span>
       </footer>
+
+      {selectedShot !== null && (
+        <div className="lightbox" role="dialog" aria-modal="true" aria-label={gallery[selectedShot].title} onClick={() => setSelectedShot(null)}>
+          <button type="button" className="lightbox-close" onClick={() => setSelectedShot(null)} aria-label="关闭完整剧照">×</button>
+          <figure onClick={(event) => event.stopPropagation()}>
+            <img src={gallery[selectedShot].image} alt={gallery[selectedShot].note} />
+            <figcaption><span>{gallery[selectedShot].source} · OFFICIAL STILL</span><b>{gallery[selectedShot].title}</b><p>{gallery[selectedShot].note}</p></figcaption>
+          </figure>
+        </div>
+      )}
     </main>
   );
 }
