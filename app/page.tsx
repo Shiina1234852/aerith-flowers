@@ -107,6 +107,20 @@ const cpMoments = [
   { no: '05', title: '未说完的话', place: '命运的边界', cloud: '有些回答来得太迟，于是保护的承诺变成跨越记忆与世界线的执念。', aerith: '她仍以微笑送他向前；离别没有抹去相遇，反而让那朵花成为永远的路标。', color: '#cda6d9' },
 ];
 
+const chapters = [
+  { id: 'home', no: '00', name: '花海封面', en: 'PROLOGUE' },
+  { id: 'story', no: '01', name: '她的故事', en: 'THE FLOWER GIRL' },
+  { id: 'archive', no: '02', name: '人物档案', en: 'DOSSIER' },
+  { id: 'arsenal', no: '03', name: '武器收藏', en: 'STAFF ARCHIVE' },
+  { id: 'journey', no: '04', name: '旅程与关系', en: 'JOURNEY' },
+  { id: 'cloud-aerith', no: '05', name: '云花专栏', en: 'CLOUD × AERITH' },
+  { id: 'gallery', no: '06', name: '高清剧照', en: 'GAME STILLS' },
+  { id: 'memories', no: '07', name: '记忆画廊', en: 'MEMORIES' },
+  { id: 'garden', no: '08', name: '互动花园', en: 'YOUR FLOWER' },
+];
+
+type ArchiveProgress = { weapons: number[]; church: number[]; cp: number[]; gallery: number[] };
+
 const symbols = [
   { glyph: '✦', name: '黄色花朵', en: 'YELLOW FLOWERS', text: '在钢铁覆盖的城市里仍然向光生长，是她最温柔也最坚定的自我介绍。' },
   { glyph: '⌂', name: '贫民窟教堂', en: 'THE CHURCH', text: '废墟、阳光与花田共同构成避难所；每一次重返，都像记忆重新开花。' },
@@ -134,15 +148,22 @@ export default function Home() {
   const [collectedWeapons, setCollectedWeapons] = useState<number[]>([0]);
   const [activeCp, setActiveCp] = useState(0);
   const [cpView, setCpView] = useState<'cloud' | 'aerith'>('aerith');
+  const [chapterOpen, setChapterOpen] = useState(false);
+  const [passportOpen, setPassportOpen] = useState(false);
+  const [activeChapter, setActiveChapter] = useState('home');
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [archiveProgress, setArchiveProgress] = useState<ArchiveProgress>({ weapons: [0], church: [0], cp: [0], gallery: [] });
   const audioRef = useRef<{ context: AudioContext; nodes: OscillatorNode[] } | null>(null);
 
   useEffect(() => {
     try {
       const saved = localStorage.getItem('aerith-garden');
       const savedWeapons = localStorage.getItem('aerith-weapons');
+      const savedProgress = localStorage.getItem('aerith-archive-progress');
       queueMicrotask(() => {
         if (saved) setFlowers(JSON.parse(saved));
         if (savedWeapons) setCollectedWeapons(JSON.parse(savedWeapons));
+        if (savedProgress) setArchiveProgress(JSON.parse(savedProgress));
       });
     } catch { /* private browsing or malformed local state */ }
     return () => {
@@ -150,6 +171,32 @@ export default function Home() {
       audioRef.current?.context.close();
     };
   }, []);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const available = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(available > 0 ? Math.min(100, Math.round(window.scrollY / available * 100)) : 0);
+    };
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActiveChapter(visible.target.id);
+    }, { rootMargin: '-32% 0px -55%', threshold: [0, .2, .5] });
+    chapters.forEach((chapter) => { const node = document.getElementById(chapter.id); if (node) observer.observe(node); });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => { observer.disconnect(); window.removeEventListener('scroll', onScroll); };
+  }, []);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { setSelectedShot(null); setChapterOpen(false); setPassportOpen(false); }
+      if (selectedShot !== null && event.key === 'ArrowLeft') setSelectedShot((selectedShot - 1 + gallery.length) % gallery.length);
+      if (selectedShot !== null && event.key === 'ArrowRight') setSelectedShot((selectedShot + 1) % gallery.length);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    document.body.style.overflow = selectedShot !== null ? 'hidden' : '';
+    return () => { window.removeEventListener('keydown', onKeyDown); document.body.style.overflow = ''; };
+  }, [selectedShot]);
 
   function toggleSound() {
     if (audioRef.current) {
@@ -200,8 +247,54 @@ export default function Home() {
     localStorage.setItem('aerith-weapons', JSON.stringify(next));
   }
 
+  function markProgress(key: keyof ArchiveProgress, index: number) {
+    setArchiveProgress((current) => {
+      if (current[key].includes(index)) return current;
+      const next = { ...current, [key]: [...current[key], index] };
+      localStorage.setItem('aerith-archive-progress', JSON.stringify(next));
+      return next;
+    });
+  }
+
+  function selectWeapon(index: number) { setActiveWeapon(index); markProgress('weapons', index); }
+  function selectDiscovery(index: number) { setDiscovery(index); markProgress('church', index); }
+  function selectCpMoment(index: number) { setActiveCp(index); markProgress('cp', index); }
+  function openGallery(index: number) { setSelectedShot(index); markProgress('gallery', index); }
+
+  const exploredCount = archiveProgress.weapons.length + archiveProgress.church.length + archiveProgress.cp.length + archiveProgress.gallery.length + (flowers.length ? 1 : 0);
+  const exploredTotal = weapons.length + discoveries.length + cpMoments.length + gallery.length + 1;
+  const exploredPercent = Math.round(exploredCount / exploredTotal * 100);
+  const passportTasks = [
+    { glyph: '♜', name: '长杖研究员', note: '查看全部七把可收集武器', current: archiveProgress.weapons.length, target: weapons.length, href: '#arsenal' },
+    { glyph: '⌂', name: '教堂巡礼者', note: '探索花田、长椅与屋顶', current: archiveProgress.church.length, target: discoveries.length, href: '#story' },
+    { glyph: '∞', name: '同行的见证者', note: '读完云花专栏五个节点', current: archiveProgress.cp.length, target: cpMoments.length, href: '#cloud-aerith' },
+    { glyph: '▣', name: '世界摄影师', note: '打开全部高清官方剧照', current: archiveProgress.gallery.length, target: gallery.length, href: '#gallery' },
+    { glyph: '✦', name: '花田守护者', note: '在互动花园种下一朵花', current: flowers.length ? 1 : 0, target: 1, href: '#garden' },
+  ];
+
   return (
     <main>
+      <div className="archive-hud" aria-label="档案馆快捷工具">
+        <button type="button" className="hud-chapters" onClick={() => { setChapterOpen(!chapterOpen); setPassportOpen(false); }} aria-expanded={chapterOpen}><span>☰</span><i>章节</i></button>
+        <button type="button" className="hud-progress" onClick={() => { setPassportOpen(!passportOpen); setChapterOpen(false); }} aria-expanded={passportOpen} style={{ '--progress': `${exploredPercent * 3.6}deg` } as React.CSSProperties}><strong>{exploredPercent}</strong><small>%</small><i>探索护照</i></button>
+      </div>
+      <div className={`drawer-shade ${chapterOpen || passportOpen ? 'active' : ''}`} onClick={() => { setChapterOpen(false); setPassportOpen(false); }} />
+      <aside className={`chapter-drawer ${chapterOpen ? 'open' : ''}`} aria-hidden={!chapterOpen}>
+        <header><div><small>ARCHIVE DIRECTORY</small><h2>章节目录</h2></div><button type="button" onClick={() => setChapterOpen(false)} aria-label="关闭章节目录">×</button></header>
+        <nav aria-label="页面章节">
+          {chapters.map((chapter) => <a key={chapter.id} className={activeChapter === chapter.id ? 'active' : ''} href={`#${chapter.id}`} onClick={() => setChapterOpen(false)}><small>{chapter.no}</small><span>{chapter.name}<i>{chapter.en}</i></span><b>{activeChapter === chapter.id ? '●' : '↗'}</b></a>)}
+        </nav>
+        <button type="button" className="random-route" onClick={() => { const target = chapters[1 + Math.floor(Math.random() * (chapters.length - 1))]; document.getElementById(target.id)?.scrollIntoView({ behavior: 'smooth' }); setChapterOpen(false); }}>✦ 随机走进一段记忆</button>
+        <p>当前阅读进度 · {scrollProgress}%</p>
+      </aside>
+      <aside className={`passport-drawer ${passportOpen ? 'open' : ''}`} aria-hidden={!passportOpen}>
+        <header><div><small>AERITH ARCHIVE PASSPORT</small><h2>探索护照</h2></div><button type="button" onClick={() => setPassportOpen(false)} aria-label="关闭探索护照">×</button></header>
+        <div className="passport-total"><div style={{ '--progress': `${exploredPercent * 3.6}deg` } as React.CSSProperties}><strong>{exploredPercent}</strong><span>%</span></div><p><b>{exploredCount} / {exploredTotal}</b> 个档案印记<br /><small>{exploredPercent === 100 ? '花田已经记住了你的全部旅程。' : '打开内容、切换画面并种花，即可留下印记。'}</small></p></div>
+        <div className="passport-tasks">
+          {passportTasks.map((task) => <a key={task.name} href={task.href} className={task.current >= task.target ? 'complete' : ''} onClick={() => setPassportOpen(false)}><span>{task.current >= task.target ? '✓' : task.glyph}</span><div><b>{task.name}</b><small>{task.note}</small><i><em style={{ width: `${task.current / task.target * 100}%` }} /></i></div><strong>{task.current}/{task.target}</strong></a>)}
+        </div>
+        <p className="passport-local">所有进度只保存在当前设备，不需要登录。</p>
+      </aside>
       <section className="hero" id="home">
         <img className="hero-photo" src="/hero-cover.png" alt="躺在黄色花海中向前伸手的爱丽丝" />
         <nav className="nav" aria-label="主导航">
@@ -302,7 +395,7 @@ export default function Home() {
         <div className="arsenal-shell">
           <div className="weapon-index" role="tablist" aria-label="爱丽丝可收集武器">
             {weapons.map((weapon, index) => (
-              <button key={weapon.name} role="tab" aria-selected={activeWeapon === index} className={activeWeapon === index ? 'active' : ''} onClick={() => setActiveWeapon(index)}>
+              <button key={weapon.name} role="tab" aria-selected={activeWeapon === index} className={activeWeapon === index ? 'active' : ''} onClick={() => selectWeapon(index)}>
                 <small>{String(index + 1).padStart(2, '0')}</small><span>{weapon.name}<i>{weapon.cn}</i></span><b className={collectedWeapons.includes(index) ? 'is-collected' : ''}>{collectedWeapons.includes(index) ? '✓' : '○'}</b>
               </button>
             ))}
@@ -321,9 +414,9 @@ export default function Home() {
               <div className="weapon-tip"><span>TACTICAL NOTE</span><p>{weapons[activeWeapon].tip}</p></div>
               <div className="weapon-location"><span>取得位置</span><p>{weapons[activeWeapon].location}</p></div>
               <div className="weapon-actions">
-                <button type="button" onClick={() => setActiveWeapon((activeWeapon - 1 + weapons.length) % weapons.length)}>← 上一把</button>
+                <button type="button" onClick={() => selectWeapon((activeWeapon - 1 + weapons.length) % weapons.length)}>← 上一把</button>
                 <button type="button" className={collectedWeapons.includes(activeWeapon) ? 'collected' : ''} onClick={() => toggleWeapon(activeWeapon)}>{collectedWeapons.includes(activeWeapon) ? '✓ 已加入收藏' : '＋ 标记为已取得'}</button>
-                <button type="button" onClick={() => setActiveWeapon((activeWeapon + 1) % weapons.length)}>下一把 →</button>
+                <button type="button" onClick={() => selectWeapon((activeWeapon + 1) % weapons.length)}>下一把 →</button>
               </div>
             </div>
           </article>
@@ -374,7 +467,7 @@ export default function Home() {
         <div className="cp-experience">
           <div className="cp-moments" role="tablist" aria-label="克劳德与爱丽丝的故事章节">
             {cpMoments.map((moment, index) => (
-              <button key={moment.no} role="tab" aria-selected={activeCp === index} className={activeCp === index ? 'active' : ''} onClick={() => setActiveCp(index)}><small>{moment.no}</small><span>{moment.title}<i>{moment.place}</i></span><b>↗</b></button>
+              <button key={moment.no} role="tab" aria-selected={activeCp === index} className={activeCp === index ? 'active' : ''} onClick={() => selectCpMoment(index)}><small>{moment.no}</small><span>{moment.title}<i>{moment.place}</i></span><b>↗</b></button>
             ))}
           </div>
           <article className="cp-card" role="tabpanel">
@@ -383,7 +476,7 @@ export default function Home() {
               <p>{cpMoments[activeCp].no} · {cpMoments[activeCp].place}</p><h3>{cpMoments[activeCp].title}</h3>
               <div className="view-toggle" role="group" aria-label="选择故事视角"><button type="button" className={cpView === 'cloud' ? 'active' : ''} onClick={() => setCpView('cloud')}>克劳德视角</button><button type="button" className={cpView === 'aerith' ? 'active' : ''} onClick={() => setCpView('aerith')}>爱丽丝视角</button></div>
               <blockquote>“{cpView === 'cloud' ? cpMoments[activeCp].cloud : cpMoments[activeCp].aerith}”</blockquote>
-              <div className="cp-nav"><button type="button" onClick={() => setActiveCp((activeCp - 1 + cpMoments.length) % cpMoments.length)}>←</button><span>{activeCp + 1} / {cpMoments.length}</span><button type="button" onClick={() => setActiveCp((activeCp + 1) % cpMoments.length)}>→</button></div>
+              <div className="cp-nav"><button type="button" onClick={() => selectCpMoment((activeCp - 1 + cpMoments.length) % cpMoments.length)}>←</button><span>{activeCp + 1} / {cpMoments.length}</span><button type="button" onClick={() => selectCpMoment((activeCp + 1) % cpMoments.length)}>→</button></div>
             </div>
           </article>
         </div>
@@ -404,7 +497,7 @@ export default function Home() {
           </div>
           <div className="discovery-buttons" role="group" aria-label="探索教堂">
             {discoveries.map((item, index) => (
-              <button key={item.label} className={discovery === index ? 'active' : ''} onClick={() => setDiscovery(index)} aria-pressed={discovery === index}>
+              <button key={item.label} className={discovery === index ? 'active' : ''} onClick={() => selectDiscovery(index)} aria-pressed={discovery === index}>
                 <span>{item.icon}</span>{item.label}
               </button>
             ))}
@@ -419,7 +512,7 @@ export default function Home() {
         </div>
         <div className="gallery-grid">
           {gallery.map((shot, index) => (
-            <button type="button" className={`gallery-shot shot-${index + 1}`} key={shot.image} onClick={() => setSelectedShot(index)}>
+            <button type="button" className={`gallery-shot shot-${index + 1}`} key={shot.image} onClick={() => openGallery(index)}>
               <img src={shot.image} alt={shot.note} />
               <span><small>{String(index + 1).padStart(2, '0')} · {shot.source}</small><b>{shot.title}</b><i>{shot.note}</i></span>
             </button>
@@ -545,10 +638,13 @@ export default function Home() {
       {selectedShot !== null && (
         <div className="lightbox" role="dialog" aria-modal="true" aria-label={gallery[selectedShot].title} onClick={() => setSelectedShot(null)}>
           <button type="button" className="lightbox-close" onClick={() => setSelectedShot(null)} aria-label="关闭完整剧照">×</button>
+          <button type="button" className="lightbox-arrow prev" onClick={(event) => { event.stopPropagation(); openGallery((selectedShot - 1 + gallery.length) % gallery.length); }} aria-label="上一张剧照">←</button>
           <figure onClick={(event) => event.stopPropagation()}>
             <img src={gallery[selectedShot].image} alt={gallery[selectedShot].note} />
             <figcaption><span>{gallery[selectedShot].source} · OFFICIAL STILL</span><b>{gallery[selectedShot].title}</b><p>{gallery[selectedShot].note}</p></figcaption>
           </figure>
+          <button type="button" className="lightbox-arrow next" onClick={(event) => { event.stopPropagation(); openGallery((selectedShot + 1) % gallery.length); }} aria-label="下一张剧照">→</button>
+          <p className="lightbox-hint">← → 切换 · ESC 关闭</p>
         </div>
       )}
     </main>
