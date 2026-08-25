@@ -115,9 +115,50 @@ const chapters = [
   { id: 'journey', no: '04', name: '旅程与关系', en: 'JOURNEY' },
   { id: 'cloud-aerith', no: '05', name: '云花专栏', en: 'CLOUD × AERITH' },
   { id: 'gallery', no: '06', name: '高清剧照', en: 'GAME STILLS' },
-  { id: 'memories', no: '07', name: '记忆画廊', en: 'MEMORIES' },
-  { id: 'garden', no: '08', name: '互动花园', en: 'YOUR FLOWER' },
+  { id: 'fanart', no: '07', name: '二创美术馆', en: 'FAN ART MUSEUM' },
+  { id: 'memories', no: '08', name: '记忆画廊', en: 'MEMORIES' },
+  { id: 'garden', no: '09', name: '互动花园', en: 'YOUR FLOWER' },
 ];
+
+const soundscapes = [
+  { name: '花田', en: 'FLOWER FIELD', notes: [196, 293.66, 392], type: 'sine' as OscillatorType, color: '#efc86f' },
+  { name: '雨夜', en: 'RAIN MEMORY', notes: [146.83, 220, 329.63], type: 'triangle' as OscillatorType, color: '#8db7cf' },
+  { name: '生命流', en: 'LIFESTREAM', notes: [220, 329.63, 493.88], type: 'sine' as OscillatorType, color: '#75d9b9' },
+];
+
+const buildGoals = [
+  { name: '双重魔法爆发', en: 'DOUBLE CAST', weapon: 0, label: '高魔法输出', opening: ['布置 Arcane Ward', '让主施法者站入结界', '选择敌人弱点属性连续施法'], materia: ['元素攻击魔晶石', 'MP 吸收', '魔法强化'], accent: '#e99aae' },
+  { name: '安全咏唱据点', en: 'SAFE CASTING', weapon: 2, label: '稳定与生存', opening: ['布置 Radiant Ward', '以强化普攻快速积累 ATB', '在结界内治疗或咏唱高阶魔法'], materia: ['治疗', '范围化', '先发制人'], accent: '#e7c66e' },
+  { name: '全队 ATB 引擎', en: 'TEAM BATTERY', weapon: 4, label: '团队循环', opening: ['在队伍核心位置布置 ATB Ward', '由高频攻击队友在结界内行动', '用 Ward Shift 保持安全站位'], materia: ['ATB 增幅', '自动独特能力', '时间魔法'], accent: '#b795dc' },
+  { name: '绝境逆转方案', en: 'LAST RESORT', weapon: 6, label: '复活与救场', opening: ['预留两格 ATB', '优先保证爱丽丝自身安全', '队伍倒下时使用 Noble Sacrifice'], materia: ['复活', '自动复活', 'MP 提升'], accent: '#d9ded8' },
+];
+
+const labPartners = [
+  { name: '克劳德', note: '由克劳德在前排牵制，给爱丽丝留出结界内的完整咏唱窗口。' },
+  { name: '蒂法', note: '蒂法快速推高力竭倍率，爱丽丝随后用射线或双重魔法完成爆发。' },
+  { name: '尤菲', note: '尤菲的高频攻击适合充能 ATB 结界，也能在秘法结界中制造密集魔法连段。' },
+];
+
+const labScenarios = [
+  { name: '首领战', note: '先观察属性弱点与大招时间轴，不要在危险阶段同时消耗全部 ATB。' },
+  { name: '群体战', note: '把结界放在视野开阔处，优先利用范围魔法和队友的聚怪能力。' },
+  { name: '远程敌人', note: '先用 Lustrous Shield 截断弹道，再把输出结界布置在盾牌后方。' },
+];
+
+const fanArtworks = [
+  { image: '/aerith-art-nouveau-card.png', title: '花之档案', style: '新艺术 · 蛋彩', category: '传统绘画', alt: '新艺术花卉边框中的爱丽丝全身像' },
+  { image: '/memory-watercolor-v3.png', title: '雨后的花', style: '透明水彩', category: '传统绘画', alt: '雨后氛围中的爱丽丝水彩画' },
+  { image: '/memory-oil-v3.png', title: '星球记得', style: '印象派油画', category: '传统绘画', alt: '爱丽丝与生命之流的印象派油画' },
+  { image: '/memory-cel-v3.png', title: '旧站台回望', style: '手绘赛璐璐', category: '动画', alt: '爱丽丝在旧站台回望的赛璐璐动画画面' },
+  { image: '/church-bench.png', title: '长椅上的回声', style: '动画背景 · 水粉', category: '动画', alt: '爱丽丝坐在废墟教堂的旧木长椅' },
+  { image: '/church-roof.png', title: '一束天空', style: '电影哑光绘景', category: '概念艺术', alt: '爱丽丝仰望教堂屋顶局部光束' },
+  { image: '/fanart/rooftop-pixel.png', title: '暮色屋顶花园', style: '16-bit 像素绘画', category: '实验风格', alt: '爱丽丝在米德加暮色屋顶为花浇水的像素画' },
+  { image: '/fanart/lifestream-ukiyoe.png', title: '星之川', style: '浮世绘木版', category: '实验风格', alt: '爱丽丝站在生命之流与百合之间的浮世绘' },
+  { image: '/fanart/coast-pastel.png', title: '第一次看海', style: '粉彩 · 彩铅', category: '传统绘画', alt: '爱丽丝赤脚走在海边的粉彩画' },
+  { image: '/fanart/midgar-risograph.png', title: '钢铁之花', style: '套色绢印 · Risograph', category: '实验风格', alt: '爱丽丝与米德加钢铁结构的复古套色海报' },
+];
+
+const fanFilters = ['全部', '传统绘画', '动画', '概念艺术', '实验风格'];
 
 type ArchiveProgress = { weapons: number[]; church: number[]; cp: number[]; gallery: number[] };
 
@@ -139,6 +180,7 @@ export default function Home() {
   const [message, setMessage] = useState('愿每一次相遇，都像花开一样温柔。');
   const [flowers, setFlowers] = useState<PlantedFlower[]>([]);
   const [soundOn, setSoundOn] = useState(false);
+  const [soundMode, setSoundMode] = useState(0);
   const [notice, setNotice] = useState('');
   const [activeRelation, setActiveRelation] = useState(0);
   const [activeVersion, setActiveVersion] = useState(3);
@@ -153,7 +195,14 @@ export default function Home() {
   const [activeChapter, setActiveChapter] = useState('home');
   const [scrollProgress, setScrollProgress] = useState(0);
   const [archiveProgress, setArchiveProgress] = useState<ArchiveProgress>({ weapons: [0], church: [0], cp: [0], gallery: [] });
+  const [labOpen, setLabOpen] = useState(false);
+  const [buildGoal, setBuildGoal] = useState(0);
+  const [labPartner, setLabPartner] = useState(0);
+  const [labScenario, setLabScenario] = useState(0);
+  const [fanFilter, setFanFilter] = useState('全部');
+  const [selectedFanArt, setSelectedFanArt] = useState<number | null>(null);
   const audioRef = useRef<{ context: AudioContext; nodes: OscillatorNode[] } | null>(null);
+  const visibleFanArt = fanFilter === '全部' ? fanArtworks : fanArtworks.filter((artwork) => artwork.category === fanFilter);
 
   useEffect(() => {
     try {
@@ -189,42 +238,56 @@ export default function Home() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') { setSelectedShot(null); setChapterOpen(false); setPassportOpen(false); }
+      if (event.key === 'Escape') { setSelectedShot(null); setSelectedFanArt(null); setChapterOpen(false); setPassportOpen(false); setLabOpen(false); }
       if (selectedShot !== null && event.key === 'ArrowLeft') setSelectedShot((selectedShot - 1 + gallery.length) % gallery.length);
       if (selectedShot !== null && event.key === 'ArrowRight') setSelectedShot((selectedShot + 1) % gallery.length);
+      if (selectedFanArt !== null && event.key === 'ArrowLeft') setSelectedFanArt((selectedFanArt - 1 + visibleFanArt.length) % visibleFanArt.length);
+      if (selectedFanArt !== null && event.key === 'ArrowRight') setSelectedFanArt((selectedFanArt + 1) % visibleFanArt.length);
     };
     window.addEventListener('keydown', onKeyDown);
-    document.body.style.overflow = selectedShot !== null ? 'hidden' : '';
+    document.body.style.overflow = selectedShot !== null || selectedFanArt !== null || labOpen ? 'hidden' : '';
     return () => { window.removeEventListener('keydown', onKeyDown); document.body.style.overflow = ''; };
-  }, [selectedShot]);
+  }, [selectedShot, selectedFanArt, labOpen, visibleFanArt.length]);
 
-  function toggleSound() {
+  function stopSoundscape() {
     if (audioRef.current) {
       audioRef.current.nodes.forEach((node) => node.stop());
       audioRef.current.context.close();
       audioRef.current = null;
-      setSoundOn(false);
-      return;
+    }
+    setSoundOn(false);
+  }
+
+  function playSoundscape(index: number) {
+    if (audioRef.current) {
+      audioRef.current.nodes.forEach((node) => node.stop());
+      audioRef.current.context.close();
     }
 
     const AudioCtx = window.AudioContext;
     const context = new AudioCtx();
     const master = context.createGain();
-    master.gain.setValueAtTime(0.018, context.currentTime);
+    master.gain.setValueAtTime(0.016, context.currentTime);
     master.connect(context.destination);
-    const frequencies = [196, 293.66, 392];
-    const nodes = frequencies.map((frequency, index) => {
+    const soundscape = soundscapes[index];
+    const nodes = soundscape.notes.map((frequency, noteIndex) => {
       const oscillator = context.createOscillator();
       const gain = context.createGain();
-      oscillator.type = 'sine';
+      oscillator.type = soundscape.type;
       oscillator.frequency.value = frequency;
-      gain.gain.value = index === 0 ? 0.45 : 0.18;
+      gain.gain.value = noteIndex === 0 ? 0.42 : 0.15;
       oscillator.connect(gain).connect(master);
-      oscillator.start(context.currentTime + index * 0.16);
+      oscillator.start(context.currentTime + noteIndex * 0.18);
       return oscillator;
     });
     audioRef.current = { context, nodes };
+    setSoundMode(index);
     setSoundOn(true);
+  }
+
+  function toggleSound() {
+    if (audioRef.current) stopSoundscape();
+    else playSoundscape(soundMode);
   }
 
   function plantFlower(event: FormEvent) {
@@ -260,10 +323,12 @@ export default function Home() {
   function selectDiscovery(index: number) { setDiscovery(index); markProgress('church', index); }
   function selectCpMoment(index: number) { setActiveCp(index); markProgress('cp', index); }
   function openGallery(index: number) { setSelectedShot(index); markProgress('gallery', index); }
+  function openFanArtwork(index: number) { setSelectedFanArt(index); }
 
   const exploredCount = archiveProgress.weapons.length + archiveProgress.church.length + archiveProgress.cp.length + archiveProgress.gallery.length + (flowers.length ? 1 : 0);
   const exploredTotal = weapons.length + discoveries.length + cpMoments.length + gallery.length + 1;
   const exploredPercent = Math.round(exploredCount / exploredTotal * 100);
+  const activeBuild = buildGoals[buildGoal];
   const passportTasks = [
     { glyph: '♜', name: '长杖研究员', note: '查看全部七把可收集武器', current: archiveProgress.weapons.length, target: weapons.length, href: '#arsenal' },
     { glyph: '⌂', name: '教堂巡礼者', note: '探索花田、长椅与屋顶', current: archiveProgress.church.length, target: discoveries.length, href: '#story' },
@@ -277,14 +342,16 @@ export default function Home() {
       <div className="archive-hud" aria-label="档案馆快捷工具">
         <button type="button" className="hud-chapters" onClick={() => { setChapterOpen(!chapterOpen); setPassportOpen(false); }} aria-expanded={chapterOpen}><span>☰</span><i>章节</i></button>
         <button type="button" className="hud-progress" onClick={() => { setPassportOpen(!passportOpen); setChapterOpen(false); }} aria-expanded={passportOpen} style={{ '--progress': `${exploredPercent * 3.6}deg` } as React.CSSProperties}><strong>{exploredPercent}</strong><small>%</small><i>探索护照</i></button>
+        <button type="button" className="hud-lab" onClick={() => { setLabOpen(true); setChapterOpen(false); setPassportOpen(false); }} aria-expanded={labOpen}><span>✧</span><i>战术实验室</i></button>
       </div>
-      <div className={`drawer-shade ${chapterOpen || passportOpen ? 'active' : ''}`} onClick={() => { setChapterOpen(false); setPassportOpen(false); }} />
+      <div className={`drawer-shade ${chapterOpen || passportOpen || labOpen ? 'active' : ''}`} onClick={() => { setChapterOpen(false); setPassportOpen(false); setLabOpen(false); }} />
       <aside className={`chapter-drawer ${chapterOpen ? 'open' : ''}`} aria-hidden={!chapterOpen}>
         <header><div><small>ARCHIVE DIRECTORY</small><h2>章节目录</h2></div><button type="button" onClick={() => setChapterOpen(false)} aria-label="关闭章节目录">×</button></header>
         <nav aria-label="页面章节">
           {chapters.map((chapter) => <a key={chapter.id} className={activeChapter === chapter.id ? 'active' : ''} href={`#${chapter.id}`} onClick={() => setChapterOpen(false)}><small>{chapter.no}</small><span>{chapter.name}<i>{chapter.en}</i></span><b>{activeChapter === chapter.id ? '●' : '↗'}</b></a>)}
         </nav>
         <button type="button" className="random-route" onClick={() => { const target = chapters[1 + Math.floor(Math.random() * (chapters.length - 1))]; document.getElementById(target.id)?.scrollIntoView({ behavior: 'smooth' }); setChapterOpen(false); }}>✦ 随机走进一段记忆</button>
+        <div className="soundscape-picker"><span>ORIGINAL AMBIENT TONES</span>{soundscapes.map((soundscape, index) => <button type="button" key={soundscape.name} className={soundOn && soundMode === index ? 'active' : ''} onClick={() => soundOn && soundMode === index ? stopSoundscape() : playSoundscape(index)} style={{ '--tone': soundscape.color } as React.CSSProperties}><i>{soundOn && soundMode === index ? 'Ⅱ' : '♪'}</i><b>{soundscape.name}</b><small>{soundscape.en}</small></button>)}</div>
         <p>当前阅读进度 · {scrollProgress}%</p>
       </aside>
       <aside className={`passport-drawer ${passportOpen ? 'open' : ''}`} aria-hidden={!passportOpen}>
@@ -295,8 +362,27 @@ export default function Home() {
         </div>
         <p className="passport-local">所有进度只保存在当前设备，不需要登录。</p>
       </aside>
+      <section className={`battle-lab ${labOpen ? 'open' : ''}`} role="dialog" aria-modal="true" aria-label="爱丽丝战术实验室" aria-hidden={!labOpen} style={{ '--lab-accent': activeBuild.accent } as React.CSSProperties}>
+        <header><div><small>AERITH TACTICAL LAB · FAN STRATEGY</small><h2>结界战术实验室</h2><p>选择目标、同行者与战场，让档案馆生成一套战斗思路。</p></div><button type="button" onClick={() => setLabOpen(false)} aria-label="关闭战术实验室">×</button></header>
+        <div className="lab-layout">
+          <div className="lab-controls">
+            <fieldset><legend>01 · 你的战斗目标</legend>{buildGoals.map((goal, index) => <button type="button" key={goal.name} className={buildGoal === index ? 'active' : ''} onClick={() => setBuildGoal(index)}><span>{String(index + 1).padStart(2, '0')}</span><b>{goal.name}</b><small>{goal.label}</small></button>)}</fieldset>
+            <fieldset><legend>02 · 同行者</legend><div>{labPartners.map((partner, index) => <button type="button" key={partner.name} className={labPartner === index ? 'active' : ''} onClick={() => setLabPartner(index)}>{partner.name}</button>)}</div></fieldset>
+            <fieldset><legend>03 · 战场类型</legend><div>{labScenarios.map((scenario, index) => <button type="button" key={scenario.name} className={labScenario === index ? 'active' : ''} onClick={() => setLabScenario(index)}>{scenario.name}</button>)}</div></fieldset>
+          </div>
+          <article className="lab-result">
+            <div className="lab-result-top"><span>RECOMMENDED PLAN</span><b>{activeBuild.en}</b></div>
+            <h3>{activeBuild.name}</h3><p className="lab-weapon">推荐武器 · <strong>{weapons[activeBuild.weapon].name}</strong><span>{weapons[activeBuild.weapon].ability}</span></p>
+            <ol>{activeBuild.opening.map((step, index) => <li key={step}><span>0{index + 1}</span><p>{step}</p></li>)}</ol>
+            <div className="lab-materia"><small>建议魔晶石方向</small>{activeBuild.materia.map((item) => <span key={item}>◌ {item}</span>)}</div>
+            <blockquote><b>{labPartners[labPartner].name}</b> · {labPartners[labPartner].note}</blockquote>
+            <blockquote><b>{labScenarios[labScenario].name}</b> · {labScenarios[labScenario].note}</blockquote>
+            <p className="lab-disclaimer">本站战术组合，不代表唯一最优解；装备名称以英文技能为主要识别依据。</p>
+          </article>
+        </div>
+      </section>
       <section className="hero" id="home">
-        <img className="hero-photo" src="/hero-cover.png" alt="躺在黄色花海中向前伸手的爱丽丝" />
+        <img className="hero-photo" src="/hero-cover.png" alt="躺在黄色花海中向前伸手的爱丽丝" fetchPriority="high" />
         <nav className="nav" aria-label="主导航">
           <a className="brand" href="#home" aria-label="返回首页">
             <span className="brand-flower">✦</span>
@@ -307,6 +393,7 @@ export default function Home() {
             <a href="#arsenal">武器收藏</a>
             <a href="#cloud-aerith">云花专栏</a>
             <a href="#gallery">游戏剧照</a>
+            <a href="#fanart">二创画廊</a>
           </div>
           <a className="nav-gift" href="#garden">留下一朵花 ↗</a>
         </nav>
@@ -322,7 +409,7 @@ export default function Home() {
           <div className="hero-actions">
             <a className="primary-action" href="#story">走进教堂 <span>↓</span></a>
             <button className="sound-action" type="button" onClick={toggleSound} aria-pressed={soundOn}>
-              <span className={`sound-bars ${soundOn ? 'is-playing' : ''}`}>Ⅲ</span> {soundOn ? '花语正在回响' : '聆听花语'}
+              <span className={`sound-bars ${soundOn ? 'is-playing' : ''}`}>Ⅲ</span> {soundOn ? `${soundscapes[soundMode].name}正在回响` : '聆听花语'}
             </button>
           </div>
         </div>
@@ -338,7 +425,7 @@ export default function Home() {
         <div className="story-grid">
           <div className="story-portrait">
             <div className="card-corners" aria-hidden="true"><i /><i /><i /><i /></div>
-            <img src="/aerith-art-nouveau-card.png" alt="完整保留花卉边框的新艺术风格爱丽丝收藏卡" />
+            <img src="/aerith-art-nouveau-card.png" alt="完整保留花卉边框的新艺术风格爱丽丝收藏卡" loading="lazy" decoding="async" />
             <span className="portrait-caption"><b>NO. 005</b> ART NOUVEAU · ARCHIVE CARD</span>
           </div>
           <div className="story-copy">
@@ -363,7 +450,7 @@ export default function Home() {
             <p className="archive-lead">“花，想买吗？”——一句再普通不过的招呼，让这位能听见星球声音的女孩先以普通人的姿态走进我们的记忆。</p>
           </div>
           <div className="archive-headshot">
-            <img src="/official/aerith-rebirth-headshot.png" alt="最终幻想VII 重生官方爱丽丝头像" />
+            <img src="/official/aerith-rebirth-headshot.png" alt="最终幻想VII 重生官方爱丽丝头像" loading="lazy" decoding="async" />
             <span>OFFICIAL CHARACTER VISUAL · REBIRTH</span>
           </div>
         </div>
@@ -471,7 +558,7 @@ export default function Home() {
             ))}
           </div>
           <article className="cp-card" role="tabpanel">
-            <div className="cp-photo"><img src="/hero-cover.png" alt="黄色花海中的爱丽丝伸出手" /><span>“花，想买吗？”</span></div>
+            <div className="cp-photo"><img src="/hero-cover.png" alt="黄色花海中的爱丽丝伸出手" loading="lazy" decoding="async" /><span>“花，想买吗？”</span></div>
             <div className="cp-story">
               <p>{cpMoments[activeCp].no} · {cpMoments[activeCp].place}</p><h3>{cpMoments[activeCp].title}</h3>
               <div className="view-toggle" role="group" aria-label="选择故事视角"><button type="button" className={cpView === 'cloud' ? 'active' : ''} onClick={() => setCpView('cloud')}>克劳德视角</button><button type="button" className={cpView === 'aerith' ? 'active' : ''} onClick={() => setCpView('aerith')}>爱丽丝视角</button></div>
@@ -489,7 +576,7 @@ export default function Home() {
           <p>选择一个角落，发现留在这里的小小回声。</p>
         </div>
         <div className="discovery-stage">
-          <img key={discoveries[discovery].image} className="stage-image" src={discoveries[discovery].image} alt={discoveries[discovery].alt} />
+          <img key={discoveries[discovery].image} className="stage-image" src={discoveries[discovery].image} alt={discoveries[discovery].alt} loading="lazy" decoding="async" />
           <span className="stage-medium">{discoveries[discovery].medium}</span>
           <div className="discovery-note" aria-live="polite">
             <span>{discoveries[discovery].icon}</span>
@@ -513,12 +600,24 @@ export default function Home() {
         <div className="gallery-grid">
           {gallery.map((shot, index) => (
             <button type="button" className={`gallery-shot shot-${index + 1}`} key={shot.image} onClick={() => openGallery(index)}>
-              <img src={shot.image} alt={shot.note} />
+              <img src={shot.image} alt={shot.note} loading="lazy" decoding="async" />
               <span><small>{String(index + 1).padStart(2, '0')} · {shot.source}</small><b>{shot.title}</b><i>{shot.note}</i></span>
             </button>
           ))}
         </div>
         <p className="official-credit">GAME STILLS © SQUARE ENIX · CHARACTER DESIGN: TETSUYA NOMURA / ROBERTO FERRARI · 非商业同人资料展示</p>
+      </section>
+
+      <section className="fanart-section" id="fanart">
+        <div className="fanart-heading"><div><p className="kicker">AERITH ORIGINAL ART MUSEUM</p><h2>十种笔触，<br />画同一朵花。</h2></div><p>这里与官方剧照完全分开，收录本站为爱丽丝创作的十幅非商业同人画。点击作品可进入沉浸式观画模式。</p></div>
+        <div className="fanart-toolbar">
+          <div role="group" aria-label="筛选二创画风">{fanFilters.map((filter) => <button type="button" key={filter} className={fanFilter === filter ? 'active' : ''} onClick={() => { setFanFilter(filter); setSelectedFanArt(null); }}>{filter}</button>)}</div>
+          <button type="button" className="random-art" onClick={() => openFanArtwork(Math.floor(Math.random() * visibleFanArt.length))}>✦ 随机看一幅</button>
+        </div>
+        <div className="fanart-grid">
+          {visibleFanArt.map((artwork, index) => <button type="button" className={`fanart-card fanart-${index + 1}`} key={artwork.image} onClick={() => openFanArtwork(index)}><img src={artwork.image} alt={artwork.alt} loading="lazy" decoding="async" /><span><small>{String(index + 1).padStart(2, '0')} · {artwork.style}</small><b>{artwork.title}</b><i>VIEW FULL ART ↗</i></span></button>)}
+        </div>
+        <p className="fanart-credit">TEN ORIGINAL FAN WORKS · CREATED FOR FLOWERS BENEATH THE SKY · 非商业同人创作</p>
       </section>
 
       <section className="versions-section" id="versions">
@@ -532,7 +631,7 @@ export default function Home() {
             ))}
           </div>
           <article className="version-card" role="tabpanel">
-            <div className="version-visual"><img src={versions[activeVersion].image} alt={`${versions[activeVersion].label}中的爱丽丝形象`} /></div>
+            <div className="version-visual"><img src={versions[activeVersion].image} alt={`${versions[activeVersion].label}中的爱丽丝形象`} loading="lazy" decoding="async" /></div>
             <div><small>{versions[activeVersion].year} · {versions[activeVersion].label}</small><h3>{versions[activeVersion].title}</h3><p>{versions[activeVersion].text}</p></div>
           </article>
         </div>
@@ -554,7 +653,7 @@ export default function Home() {
           </div>
           <article className="memory-card" role="tabpanel" style={{ '--memory-color': memories[activeMemory].color } as React.CSSProperties}>
             <div className="memory-art">
-              <img src={memories[activeMemory].image} alt={memories[activeMemory].alt} />
+              <img src={memories[activeMemory].image} alt={memories[activeMemory].alt} loading="lazy" decoding="async" />
               <i aria-hidden="true">✦</i><b aria-hidden="true">{memories[activeMemory].number}</b>
             </div>
             <div className="memory-text">
@@ -645,6 +744,15 @@ export default function Home() {
           </figure>
           <button type="button" className="lightbox-arrow next" onClick={(event) => { event.stopPropagation(); openGallery((selectedShot + 1) % gallery.length); }} aria-label="下一张剧照">→</button>
           <p className="lightbox-hint">← → 切换 · ESC 关闭</p>
+        </div>
+      )}
+      {selectedFanArt !== null && (
+        <div className="fanart-lightbox" role="dialog" aria-modal="true" aria-label={visibleFanArt[selectedFanArt].title} onClick={() => setSelectedFanArt(null)}>
+          <button type="button" className="fanlight-close" onClick={() => setSelectedFanArt(null)} aria-label="关闭二创作品">×</button>
+          <button type="button" className="fanlight-arrow prev" onClick={(event) => { event.stopPropagation(); openFanArtwork((selectedFanArt - 1 + visibleFanArt.length) % visibleFanArt.length); }} aria-label="上一幅作品">←</button>
+          <figure onClick={(event) => event.stopPropagation()}><img src={visibleFanArt[selectedFanArt].image} alt={visibleFanArt[selectedFanArt].alt} /><figcaption><small>{visibleFanArt[selectedFanArt].style} · ORIGINAL FAN WORK</small><h3>{visibleFanArt[selectedFanArt].title}</h3><p>{selectedFanArt + 1} / {visibleFanArt.length}</p></figcaption></figure>
+          <button type="button" className="fanlight-arrow next" onClick={(event) => { event.stopPropagation(); openFanArtwork((selectedFanArt + 1) % visibleFanArt.length); }} aria-label="下一幅作品">→</button>
+          <p className="fanlight-hint">← → 切换作品 · ESC 返回画廊</p>
         </div>
       )}
     </main>
