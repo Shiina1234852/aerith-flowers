@@ -10,6 +10,8 @@ const memories = [
     subtitle: 'A CHANCE ENCOUNTER',
     text: '阳光穿过破损的屋顶，她从花丛里抬头。陌生人的脚步声，就这样成了一段旅程的开始。',
     color: '#e0b6bd',
+    image: '/memory-01-v2.png',
+    alt: '爱丽丝在阳光照进的教堂花田中抬头',
   },
   {
     id: 'promise',
@@ -18,6 +20,8 @@ const memories = [
     subtitle: 'WORDS LEFT UNSAID',
     text: '有些记忆并不会消失。它们只是变成风、变成雨，藏进每一次似曾相识的回眸里。',
     color: '#f0ca73',
+    image: '/memory-02-v2.png',
+    alt: '爱丽丝在雨后的旧站台握着一朵黄花回望',
   },
   {
     id: 'stars',
@@ -26,6 +30,8 @@ const memories = [
     subtitle: 'UNDER THE OPEN SKY',
     text: '她害怕天空，却仍愿意走向它。因为真正重要的，从来不是命运写下了什么，而是如何选择微笑。',
     color: '#81d8bb',
+    image: '/memory-03-v2.png',
+    alt: '爱丽丝站在高处仰望生命之流光点与晨空',
   },
 ];
 
@@ -110,6 +116,7 @@ export default function Home() {
   return (
     <main>
       <section className="hero" id="home">
+        <img className="hero-photo" src="/hero-cover.png" alt="躺在黄色花海中向前伸手的爱丽丝" />
         <nav className="nav" aria-label="主导航">
           <a className="brand" href="#home" aria-label="返回首页">
             <span className="brand-flower">✦</span>
@@ -123,9 +130,6 @@ export default function Home() {
           <a className="nav-gift" href="#garden">留下一朵花 ↗</a>
         </nav>
 
-        <div className="church-light" aria-hidden="true" />
-        <div className="arch arch-left" aria-hidden="true" />
-        <div className="arch arch-right" aria-hidden="true" />
         <div className="dust" aria-hidden="true">
           {Array.from({ length: 18 }).map((_, index) => <i key={index} />)}
         </div>
@@ -142,20 +146,6 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="figure" aria-hidden="true">
-          <div className="ribbon ribbon-one" />
-          <div className="ribbon ribbon-two" />
-          <div className="head" />
-          <div className="hair" />
-          <div className="jacket" />
-          <div className="dress" />
-          <div className="basket"><span /></div>
-        </div>
-
-        <div className="flower-field" aria-hidden="true">
-          {Array.from({ length: 28 }).map((_, index) => <span className={`flower flower-${(index % 5) + 1}`} key={index}>✦</span>)}
-        </div>
-
         <aside className="chapter-tag">
           <span>CHAPTER</span><strong>01</strong><i /><p>THE FLOWER<br />GIRL</p>
         </aside>
@@ -165,12 +155,9 @@ export default function Home() {
       <section className="story-section" id="story">
         <div className="section-number"><span>01</span><i /> THE FLOWER GIRL</div>
         <div className="story-grid">
-          <div className="story-portrait" aria-hidden="true">
-            <span className="halo" />
-            <span className="portrait-braid" />
-            <span className="portrait-ribbon" />
-            <span className="portrait-shoulder" />
-            <span className="portrait-flower">✦</span>
+          <div className="story-portrait">
+            <img src="/story-portrait-v2.png" alt="爱丽丝在废墟教堂的黄色花田中提着花篮" />
+            <span className="portrait-caption">ORIGINAL REIMAGINING · CHURCH IN BLOOM</span>
           </div>
           <div className="story-copy">
             <p className="kicker">A FLOWER BLOOMING IN THE SLUMS</p>
@@ -193,8 +180,7 @@ export default function Home() {
           <p>选择一个角落，发现留在这里的小小回声。</p>
         </div>
         <div className="discovery-stage">
-          <div className="stage-window" aria-hidden="true"><i /><i /><i /></div>
-          <div className="stage-flowers" aria-hidden="true">✦　✦　✦　✦　✦　✦</div>
+          <img className="stage-image" src="/church-scene-v2.png" alt="爱丽丝提着花篮走在洒满阳光的废墟教堂中" />
           <div className="discovery-note" aria-live="polite">
             <span>{discoveries[discovery].icon}</span>
             <p>{discoveries[discovery].note}</p>
@@ -224,7 +210,10 @@ export default function Home() {
             ))}
           </div>
           <article className="memory-card" role="tabpanel" style={{ '--memory-color': memories[activeMemory].color } as React.CSSProperties}>
-            <div className="memory-art" aria-hidden="true"><span /><i>✦</i><b>{memories[activeMemory].number}</b></div>
+            <div className="memory-art">
+              <img src={memories[activeMemory].image} alt={memories[activeMemory].alt} />
+              <i aria-hidden="true">✦</i><b aria-hidden="true">{memories[activeMemory].number}</b>
+            </div>
             <div className="memory-text">
               <p>{memories[activeMemory].subtitle}</p>
               <h3>{memories[activeMemory].title}</h3>

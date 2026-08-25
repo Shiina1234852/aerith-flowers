@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     description: '关于相遇、记忆与生命的旅程',
     type: 'website',
     locale: 'zh_CN',
-    images: [{ url: '/og.png', width: 1731, height: 909, alt: '钢铁天空下的花' }],
+    images: [{ url: '/og.png', width: 1732, height: 908, alt: '钢铁天空下的花' }],
   },
   twitter: {
     card: 'summary_large_image',
