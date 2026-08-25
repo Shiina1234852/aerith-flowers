@@ -39,9 +39,9 @@ const memories = [
 ];
 
 const discoveries = [
-  { icon: '✦', label: '黄色花朵', note: '它们并不知道头顶是钢铁，只知道要朝着光生长。' },
-  { icon: '⌂', label: '旧木长椅', note: '风吹过时，木纹里会传来很轻的笑声。也许有人刚刚坐在这里。' },
-  { icon: '◌', label: '破损屋顶', note: '米德加难得的阳光，从这里落下来，照亮了整片花田。' },
+  { icon: '✦', label: '黄色花朵', note: '它们并不知道头顶是钢铁，只知道要朝着光生长。', image: '/church-scene-v2.png', alt: '爱丽丝提着花篮走在洒满阳光的教堂花田中', medium: 'CINEMATIC CONCEPT ART' },
+  { icon: '⌂', label: '旧木长椅', note: '风吹过时，木纹里会传来很轻的笑声。也许有人刚刚坐在这里。', image: '/church-bench.png', alt: '爱丽丝坐在废墟教堂的旧木长椅旁', medium: 'CEL PAINTING & GOUACHE' },
+  { icon: '◌', label: '破损屋顶', note: '屋顶仍大致完整，只有一道旧伤让米德加难得的阳光落进来。', image: '/church-roof.png', alt: '爱丽丝仰望废墟教堂屋顶局部的破洞与光束', medium: 'CINEMATIC MATTE PAINTING' },
 ];
 
 const seedTypes = [
@@ -83,12 +83,28 @@ const versions = [
 ];
 
 const gallery = [
-  { image: '/official/aerith-ice-magic.jpg', title: '魔法绽放', note: '爱丽丝在战斗中施放冰属性魔法', source: 'BATTLE' },
-  { image: '/official/party-chocobos.jpg', title: '草原同行', note: '一行人骑乘陆行鸟穿越格拉斯兰', source: 'WORLD' },
   { image: '/official/rebirth-grasslands.jpg', title: '米德加之外', note: '离开钢铁都市后的第一片辽阔草原', source: 'WORLD' },
   { image: '/official/rebirth-costa-del-sol.jpg', title: '太阳海岸', note: '旅途里明亮而短暂的度假时光', source: 'WORLD' },
   { image: '/official/rebirth-gongaga.jpg', title: '贡加加', note: '被魔晄与记忆缠绕的繁茂密林', source: 'WORLD' },
   { image: '/official/rebirth-cosmo-canyon.jpg', title: '星陨峡谷', note: '仰望星空、理解星球的古老圣地', source: 'WORLD' },
+];
+
+const weapons = [
+  { name: 'Guard Stick', cn: '护卫长杖', ability: 'Arcane Ward', abilityCn: '秘法结界', atb: 1, chapter: '初始装备', location: '爱丽丝加入队伍时持有', role: 'SPELL × 2', tone: '#efbdcd', effect: '在地面布置结界。站在其中施放的攻击魔法会自动追加第二次咏唱。', tip: '适合与高阶元素魔法配合，是爱丽丝最标志性的爆发核心。' },
+  { name: 'Timeless Rod', cn: '永恒长杖', ability: 'Chrono Aegis', abilityCn: '时光神盾', atb: 1, chapter: 'CHAPTER 02', location: '格拉斯兰 · 比尔牧场，克萝伊商店右侧紫色宝箱', role: 'STOP FIELD', tone: '#72d6c0', effect: '在身边升起屏障，对试图近身攻击的敌人造成伤害，并暂时冻结其行动。', tip: '用于保护施法位置；被近战敌人包围时尤其有效。' },
+  { name: "Empress's Scepter", cn: '女帝权杖', ability: 'Radiant Ward', abilityCn: '光耀结界', atb: 1, chapter: 'CHAPTER 04', location: '下朱诺 · 旅馆内爱丽丝的房间', role: 'LASER WARD', tone: '#f1cf71', effect: '布置光耀结界：强化爱丽丝的普通攻击，并在结界中咏唱魔法时提供无敌保护。', tip: '能显著改善普攻与 ATB 获取节奏，也是安全施法的据点。' },
+  { name: "Wizard's Rod", cn: '巫师长杖', ability: 'Lustrous Shield', abilityCn: '光辉之盾', atb: 1, chapter: 'CHAPTER 07', location: '科雷尔山 · 休息点左侧小路的紫色宝箱', role: 'PROJECTILE GUARD', tone: '#80bddd', effect: '召唤魔法盾牌，将敌人隔开并阻挡来袭的远程投射物。', tip: '面对弹幕和直线远程攻击时，可以创造稳定的输出窗口。' },
+  { name: 'Ceremonial Staff', cn: '仪式长杖', ability: 'ATB Ward', abilityCn: 'ATB 结界', atb: 2, chapter: 'CHAPTER 10', location: '基族村落 · 放逐者海岸休息点', role: 'TEAM BATTERY', tone: '#c99ce5', effect: '布置 ATB 结界；在其中积累的 ATB 会同时为队友的 ATB 量表充能。', tip: '让高频行动转化为全队资源，适合围绕结界组织连续指令。' },
+  { name: 'Plumose Rod', cn: '羽翼长杖', ability: 'Ray of Judgment', abilityCn: '审判射线', atb: 1, chapter: 'CHAPTER 12', location: '神罗宅邸 · 完成「哀悼的诅咒」及全部模拟战后取得', role: 'STAGGER BURST', tone: '#f4a77c', effect: '发射多段命中的高能射线，并提高敌人的力竭伤害倍率。', tip: '在敌人即将或已经力竭时使用，能放大队伍的集中爆发。' },
+  { name: 'Gambanteinn', cn: '甘班泰因', ability: 'Noble Sacrifice', abilityCn: '高洁牺牲', atb: 2, chapter: 'CHAPTER 13', location: '古代种神殿 · Order’s Altar 楼梯下方紫色宝箱', role: 'LAST RESORT', tone: '#e8e5dc', effect: '牺牲爱丽丝，复活倒下的队友、恢复其生命，并解除不利状态。', tip: '逆转濒临团灭局面的终极手段；代价极高，应作为最后保险。' },
+];
+
+const cpMoments = [
+  { no: '01', title: '一朵花的价格', place: '壹号魔晄炉之后', cloud: '他接过的也许只是一朵花，却第一次在任务之外回应了一个陌生人的善意。', aerith: '她主动走近这个沉默的佣兵，用一朵花把短暂相遇变成了可以被记住的事。', color: '#e6c36e' },
+  { no: '02', title: '一次约会的报酬', place: '伍番街教堂', cloud: '“护卫”原本是明确的工作，但她轻快地改写了报酬，也一步步打乱了他的距离感。', aerith: '她把危险说成玩笑，把逃亡变成同行；主动伸出的手，让他有机会选择留下。', color: '#dc8fa0' },
+  { no: '03', title: '屋顶上的路', place: '贫民窟上空', cloud: '笨拙地走在前面、确认她有没有跟上，是他不擅长说出口的在意。', aerith: '她看见他故作冷静的外壳，也总能用一句玩笑，让那份保护不再只是职责。', color: '#73cdb5' },
+  { no: '04', title: '星空下的约会', place: '金碟游乐园', cloud: '喧闹的灯光里，他终于不只是被推着前进，而是认真听见她想被看见的那部分。', aerith: '她寻找的不是另一个人的影子，而是此刻坐在身边、仍在学习成为自己的克劳德。', color: '#8fa9dc' },
+  { no: '05', title: '未说完的话', place: '命运的边界', cloud: '有些回答来得太迟，于是保护的承诺变成跨越记忆与世界线的执念。', aerith: '她仍以微笑送他向前；离别没有抹去相遇，反而让那朵花成为永远的路标。', color: '#cda6d9' },
 ];
 
 const symbols = [
@@ -114,12 +130,20 @@ export default function Home() {
   const [activeVersion, setActiveVersion] = useState(3);
   const [spoilersOn, setSpoilersOn] = useState(false);
   const [selectedShot, setSelectedShot] = useState<number | null>(null);
+  const [activeWeapon, setActiveWeapon] = useState(0);
+  const [collectedWeapons, setCollectedWeapons] = useState<number[]>([0]);
+  const [activeCp, setActiveCp] = useState(0);
+  const [cpView, setCpView] = useState<'cloud' | 'aerith'>('aerith');
   const audioRef = useRef<{ context: AudioContext; nodes: OscillatorNode[] } | null>(null);
 
   useEffect(() => {
     try {
       const saved = localStorage.getItem('aerith-garden');
-      if (saved) setFlowers(JSON.parse(saved));
+      const savedWeapons = localStorage.getItem('aerith-weapons');
+      queueMicrotask(() => {
+        if (saved) setFlowers(JSON.parse(saved));
+        if (savedWeapons) setCollectedWeapons(JSON.parse(savedWeapons));
+      });
     } catch { /* private browsing or malformed local state */ }
     return () => {
       audioRef.current?.nodes.forEach((node) => node.stop());
@@ -170,6 +194,12 @@ export default function Home() {
     setNotice('你的花已经在这台设备上盛开。');
   }
 
+  function toggleWeapon(index: number) {
+    const next = collectedWeapons.includes(index) ? collectedWeapons.filter((item) => item !== index) : [...collectedWeapons, index];
+    setCollectedWeapons(next);
+    localStorage.setItem('aerith-weapons', JSON.stringify(next));
+  }
+
   return (
     <main>
       <section className="hero" id="home">
@@ -181,9 +211,9 @@ export default function Home() {
           </a>
           <div className="nav-links">
             <a href="#archive">人物档案</a>
-            <a href="#journey">旅程</a>
+            <a href="#arsenal">武器收藏</a>
+            <a href="#cloud-aerith">云花专栏</a>
             <a href="#gallery">游戏剧照</a>
-            <a href="#memories">记忆</a>
           </div>
           <a className="nav-gift" href="#garden">留下一朵花 ↗</a>
         </nav>
@@ -264,6 +294,48 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="arsenal-section" id="arsenal" style={{ '--weapon-tone': weapons[activeWeapon].tone } as React.CSSProperties}>
+        <div className="arsenal-heading">
+          <div><p className="kicker">THE STAFF ARCHIVE · REBIRTH</p><h2>七把长杖，<br />七种战斗思路。</h2></div>
+          <div className="collection-meter"><span>COLLECTION</span><strong>{collectedWeapons.length}<small>/ 07</small></strong><i><b style={{ width: `${collectedWeapons.length / weapons.length * 100}%` }} /></i><p>收集进度仅保存在这台设备上</p></div>
+        </div>
+        <div className="arsenal-shell">
+          <div className="weapon-index" role="tablist" aria-label="爱丽丝可收集武器">
+            {weapons.map((weapon, index) => (
+              <button key={weapon.name} role="tab" aria-selected={activeWeapon === index} className={activeWeapon === index ? 'active' : ''} onClick={() => setActiveWeapon(index)}>
+                <small>{String(index + 1).padStart(2, '0')}</small><span>{weapon.name}<i>{weapon.cn}</i></span><b className={collectedWeapons.includes(index) ? 'is-collected' : ''}>{collectedWeapons.includes(index) ? '✓' : '○'}</b>
+              </button>
+            ))}
+          </div>
+          <article className="weapon-display" role="tabpanel">
+            <div className="weapon-art" aria-hidden="true">
+              <div className={`staff-shape staff-${activeWeapon + 1}`}><i /><b /><span /></div>
+              <p>{weapons[activeWeapon].role}</p>
+              <em>{String(activeWeapon + 1).padStart(2, '0')}</em>
+            </div>
+            <div className="weapon-copy">
+              <div className="weapon-topline"><span>{weapons[activeWeapon].chapter}</span><small>{weapons[activeWeapon].atb} ATB</small></div>
+              <h3>{weapons[activeWeapon].name}</h3><p className="weapon-cn">{weapons[activeWeapon].cn} · 本站译名</p>
+              <div className="ability-name"><small>WEAPON ABILITY</small><strong>{weapons[activeWeapon].ability}</strong><span>{weapons[activeWeapon].abilityCn}</span></div>
+              <p className="ability-effect">{weapons[activeWeapon].effect}</p>
+              <div className="weapon-tip"><span>TACTICAL NOTE</span><p>{weapons[activeWeapon].tip}</p></div>
+              <div className="weapon-location"><span>取得位置</span><p>{weapons[activeWeapon].location}</p></div>
+              <div className="weapon-actions">
+                <button type="button" onClick={() => setActiveWeapon((activeWeapon - 1 + weapons.length) % weapons.length)}>← 上一把</button>
+                <button type="button" className={collectedWeapons.includes(activeWeapon) ? 'collected' : ''} onClick={() => toggleWeapon(activeWeapon)}>{collectedWeapons.includes(activeWeapon) ? '✓ 已加入收藏' : '＋ 标记为已取得'}</button>
+                <button type="button" onClick={() => setActiveWeapon((activeWeapon + 1) % weapons.length)}>下一把 →</button>
+              </div>
+            </div>
+          </article>
+        </div>
+        <div className="base-skills">
+          <p>无需武器解锁的基础战术</p>
+          <button type="button" onClick={() => setNotice('灵魂吸收：攻击敌人并吸收 MP；对力竭目标效果更强。')}><span>SOUL DRAIN</span>灵魂吸收</button>
+          <button type="button" onClick={() => setNotice('魔法风暴：对身边的敌人造成范围魔法伤害。')}><span>SORCEROUS STORM</span>魔法风暴</button>
+          <button type="button" onClick={() => setNotice('结界瞬移：在已布置的结界之间快速转移位置。')}><span>WARD SHIFT</span>结界瞬移</button>
+        </div>
+      </section>
+
       <section className="journey-section" id="journey">
         <div className="journey-heading">
           <div><p className="kicker">A JOURNEY UNDER THE OPEN SKY</p><h2>从一小片花田，<br />走到星球的尽头。</h2></div>
@@ -297,6 +369,26 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="cp-section" id="cloud-aerith" style={{ '--cp-tone': cpMoments[activeCp].color } as React.CSSProperties}>
+        <div className="cp-heading"><p className="kicker">CLOUD × AERITH · FAN COLUMN</p><h2>从一朵花开始的，<br />不只是护卫任务。</h2><p>以下为偏克劳德×爱丽丝方向的同人情感解读，与上方官方角色资料分开呈现。</p></div>
+        <div className="cp-experience">
+          <div className="cp-moments" role="tablist" aria-label="克劳德与爱丽丝的故事章节">
+            {cpMoments.map((moment, index) => (
+              <button key={moment.no} role="tab" aria-selected={activeCp === index} className={activeCp === index ? 'active' : ''} onClick={() => setActiveCp(index)}><small>{moment.no}</small><span>{moment.title}<i>{moment.place}</i></span><b>↗</b></button>
+            ))}
+          </div>
+          <article className="cp-card" role="tabpanel">
+            <div className="cp-photo"><img src="/hero-cover.png" alt="黄色花海中的爱丽丝伸出手" /><span>“花，想买吗？”</span></div>
+            <div className="cp-story">
+              <p>{cpMoments[activeCp].no} · {cpMoments[activeCp].place}</p><h3>{cpMoments[activeCp].title}</h3>
+              <div className="view-toggle" role="group" aria-label="选择故事视角"><button type="button" className={cpView === 'cloud' ? 'active' : ''} onClick={() => setCpView('cloud')}>克劳德视角</button><button type="button" className={cpView === 'aerith' ? 'active' : ''} onClick={() => setCpView('aerith')}>爱丽丝视角</button></div>
+              <blockquote>“{cpView === 'cloud' ? cpMoments[activeCp].cloud : cpMoments[activeCp].aerith}”</blockquote>
+              <div className="cp-nav"><button type="button" onClick={() => setActiveCp((activeCp - 1 + cpMoments.length) % cpMoments.length)}>←</button><span>{activeCp + 1} / {cpMoments.length}</span><button type="button" onClick={() => setActiveCp((activeCp + 1) % cpMoments.length)}>→</button></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <section className="church-section" aria-labelledby="church-title">
         <div className="church-heading">
           <p className="kicker">THE CHURCH · A QUIET PLACE</p>
@@ -304,7 +396,8 @@ export default function Home() {
           <p>选择一个角落，发现留在这里的小小回声。</p>
         </div>
         <div className="discovery-stage">
-          <img className="stage-image" src="/church-scene-v2.png" alt="爱丽丝提着花篮走在洒满阳光的废墟教堂中" />
+          <img key={discoveries[discovery].image} className="stage-image" src={discoveries[discovery].image} alt={discoveries[discovery].alt} />
+          <span className="stage-medium">{discoveries[discovery].medium}</span>
           <div className="discovery-note" aria-live="polite">
             <span>{discoveries[discovery].icon}</span>
             <p>{discoveries[discovery].note}</p>
