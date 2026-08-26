@@ -132,11 +132,9 @@ const chapters = [
 const aerithTheme = {
   title: '爱丽丝主题曲',
   en: 'AERITH’S THEME',
-  artist: '植松伸夫 · 东京爱乐交响乐团',
-  videoId: 'rXUq2EGCROg',
-  source: 'https://www.youtube.com/watch?v=rXUq2EGCROg',
-  originalSoundtrack: 'https://music.apple.com/us/song/61017453',
-  spotify: 'https://open.spotify.com/track/18sDWMHFfgDOh1zMrFJt1C',
+  artist: '植松伸夫 · FINAL FANTASY VII',
+  neteaseId: '534540545',
+  source: 'https://music.163.com/#/song?id=534540545',
 };
 
 const buildGoals = [
@@ -342,11 +340,11 @@ export default function Home() {
       {soundOn && <aside className={`theme-player ${playerExpanded ? 'expanded' : 'collapsed'}`} aria-label="爱丽丝主题曲播放器">
         <div className="theme-player-heading"><span><i>♪</i><b>{aerithTheme.title}</b><small>NOW PLAYING</small></span><div><button type="button" onClick={() => setPlayerExpanded((current) => !current)} aria-label={playerExpanded ? '收起音乐播放器' : '展开音乐播放器'}>{playerExpanded ? '⌄' : '⌃'}</button><button type="button" onClick={() => setSoundOn(false)} aria-label="关闭音乐播放器">×</button></div></div>
         <div className="theme-player-body">
-          <div className="theme-player-title"><div className="theme-disc" aria-hidden="true"><span>✦</span></div><p><b>{aerithTheme.en}</b><small>{aerithTheme.artist}<br />FINAL FANTASY VII REMAKE ORCHESTRA</small></p></div>
-          <div className="theme-player-video">
-            <iframe title="Aerith's Theme — SQUARE ENIX MUSIC 官方演奏" src={`https://www.youtube-nocookie.com/embed/${aerithTheme.videoId}?autoplay=1&controls=1&rel=0&modestbranding=1`} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
+          <div className="theme-player-title"><div className="theme-disc" aria-hidden="true"><span>✦</span></div><p><b>{aerithTheme.en}</b><small>{aerithTheme.artist}<br />30TH ANNIVERSARY ORIGINAL TRACK</small></p></div>
+          <div className="theme-player-audio">
+            <iframe title="爱丽丝主题曲纯音频播放器" src={`https://music.163.com/outchain/player?type=2&id=${aerithTheme.neteaseId}&auto=1&height=66`} allow="autoplay" />
           </div>
-          <div className="theme-player-links"><a href={aerithTheme.source} target="_blank" rel="noreferrer">官方演奏 <span>↗</span></a><a href={aerithTheme.originalSoundtrack} target="_blank" rel="noreferrer">1997 原声 <span>↗</span></a><a href={aerithTheme.spotify} target="_blank" rel="noreferrer">Spotify <span>↗</span></a></div>
+          <a className="theme-player-source" href={aerithTheme.source} target="_blank" rel="noreferrer">网易云音乐 · 纯音频来源 <span>↗</span></a>
         </div>
       </aside>}
       <aside className={`passport-drawer ${passportOpen ? 'open' : ''}`} aria-hidden={!passportOpen}>
