@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
 
@@ -129,11 +129,13 @@ const chapters = [
   { id: 'garden', no: '09', name: '互动花园', en: 'YOUR FLOWER' },
 ];
 
-const soundscapes = [
-  { name: '花田', en: 'FLOWER FIELD', notes: [196, 293.66, 392], type: 'sine' as OscillatorType, color: '#efc86f' },
-  { name: '雨夜', en: 'RAIN MEMORY', notes: [146.83, 220, 329.63], type: 'triangle' as OscillatorType, color: '#8db7cf' },
-  { name: '生命流', en: 'LIFESTREAM', notes: [220, 329.63, 493.88], type: 'sine' as OscillatorType, color: '#75d9b9' },
-];
+const aerithTheme = {
+  title: '爱丽丝主题曲',
+  en: 'AERITH’S THEME',
+  artist: '植松伸夫 · 东京爱乐交响乐团',
+  videoId: 'rXUq2EGCROg',
+  source: 'https://www.youtube.com/watch?v=rXUq2EGCROg',
+};
 
 const buildGoals = [
   { name: '双重魔法爆发', en: 'DOUBLE CAST', weapon: 0, label: '高魔法输出', opening: ['布置 Arcane Ward', '让主施法者站入结界', '选择敌人弱点属性连续施法'], materia: ['元素攻击魔晶石', 'MP 吸收', '魔法强化'], accent: '#e99aae' },
@@ -190,7 +192,6 @@ export default function Home() {
   const [message, setMessage] = useState('愿每一次相遇，都像花开一样温柔。');
   const [flowers, setFlowers] = useState<PlantedFlower[]>([]);
   const [soundOn, setSoundOn] = useState(false);
-  const [soundMode, setSoundMode] = useState(0);
   const [notice, setNotice] = useState('');
   const [activeRelation, setActiveRelation] = useState(0);
   const [activeVersion, setActiveVersion] = useState(3);
@@ -214,7 +215,6 @@ export default function Home() {
   const [selectedCpArt, setSelectedCpArt] = useState<number | null>(null);
   const [easterEggOpen, setEasterEggOpen] = useState(false);
   const [spotlightArt, setSpotlightArt] = useState(9);
-  const audioRef = useRef<{ context: AudioContext; nodes: OscillatorNode[] } | null>(null);
   const visibleFanArt = fanFilter === '全部' ? fanArtworks : fanArtworks.filter((artwork) => artwork.category === fanFilter);
   const spotlightIndex = spotlightArt % visibleFanArt.length;
   const spotlight = visibleFanArt[spotlightIndex];
@@ -230,10 +230,6 @@ export default function Home() {
         if (savedProgress) setArchiveProgress(JSON.parse(savedProgress));
       });
     } catch { /* private browsing or malformed local state */ }
-    return () => {
-      audioRef.current?.nodes.forEach((node) => node.stop());
-      audioRef.current?.context.close();
-    };
   }, []);
 
   useEffect(() => {
@@ -266,45 +262,8 @@ export default function Home() {
     return () => { window.removeEventListener('keydown', onKeyDown); document.body.style.overflow = ''; };
   }, [selectedShot, selectedFanArt, selectedCpArt, labOpen, easterEggOpen, visibleFanArt.length]);
 
-  function stopSoundscape() {
-    if (audioRef.current) {
-      audioRef.current.nodes.forEach((node) => node.stop());
-      audioRef.current.context.close();
-      audioRef.current = null;
-    }
-    setSoundOn(false);
-  }
-
-  function playSoundscape(index: number) {
-    if (audioRef.current) {
-      audioRef.current.nodes.forEach((node) => node.stop());
-      audioRef.current.context.close();
-    }
-
-    const AudioCtx = window.AudioContext;
-    const context = new AudioCtx();
-    const master = context.createGain();
-    master.gain.setValueAtTime(0.016, context.currentTime);
-    master.connect(context.destination);
-    const soundscape = soundscapes[index];
-    const nodes = soundscape.notes.map((frequency, noteIndex) => {
-      const oscillator = context.createOscillator();
-      const gain = context.createGain();
-      oscillator.type = soundscape.type;
-      oscillator.frequency.value = frequency;
-      gain.gain.value = noteIndex === 0 ? 0.42 : 0.15;
-      oscillator.connect(gain).connect(master);
-      oscillator.start(context.currentTime + noteIndex * 0.18);
-      return oscillator;
-    });
-    audioRef.current = { context, nodes };
-    setSoundMode(index);
-    setSoundOn(true);
-  }
-
   function toggleSound() {
-    if (audioRef.current) stopSoundscape();
-    else playSoundscape(soundMode);
+    setSoundOn((current) => !current);
   }
 
   function plantFlower(event: FormEvent) {
@@ -368,9 +327,17 @@ export default function Home() {
           {chapters.map((chapter) => <a key={chapter.id} className={activeChapter === chapter.id ? 'active' : ''} href={`#${chapter.id}`} onClick={() => setChapterOpen(false)}><small>{chapter.no}</small><span>{chapter.name}<i>{chapter.en}</i></span><b>{activeChapter === chapter.id ? '●' : '↗'}</b></a>)}
         </nav>
         <button type="button" className="random-route" onClick={() => { const target = chapters[1 + Math.floor(Math.random() * (chapters.length - 1))]; document.getElementById(target.id)?.scrollIntoView({ behavior: 'smooth' }); setChapterOpen(false); }}>✦ 随机走进一段记忆</button>
-        <div className="soundscape-picker"><span>ORIGINAL AMBIENT TONES</span>{soundscapes.map((soundscape, index) => <button type="button" key={soundscape.name} className={soundOn && soundMode === index ? 'active' : ''} onClick={() => soundOn && soundMode === index ? stopSoundscape() : playSoundscape(index)} style={{ '--tone': soundscape.color } as React.CSSProperties}><i>{soundOn && soundMode === index ? 'Ⅱ' : '♪'}</i><b>{soundscape.name}</b><small>{soundscape.en}</small></button>)}</div>
+        <div className="soundscape-picker theme-picker"><span>OFFICIAL MUSIC PERFORMANCE</span><button type="button" className={soundOn ? 'active' : ''} onClick={toggleSound} style={{ '--tone': '#efc86f' } as React.CSSProperties}><i>{soundOn ? 'Ⅱ' : '♪'}</i><b>{aerithTheme.title}</b><small>{aerithTheme.en} · NOBUO UEMATSU</small></button></div>
         <p>当前阅读进度 · {scrollProgress}%</p>
       </aside>
+      {soundOn && <aside className="theme-player" aria-label="爱丽丝主题曲播放器">
+        <div className="theme-player-heading"><span><i>♪</i> NOW PLAYING</span><button type="button" onClick={() => setSoundOn(false)} aria-label="关闭音乐播放器">×</button></div>
+        <div className="theme-player-title"><div className="theme-disc" aria-hidden="true"><span>✦</span></div><p><b>{aerithTheme.title}</b><small>{aerithTheme.en}<br />{aerithTheme.artist}</small></p></div>
+        <div className="theme-player-video">
+          <iframe title="Aerith's Theme — SQUARE ENIX MUSIC 官方演奏" src={`https://www.youtube-nocookie.com/embed/${aerithTheme.videoId}?autoplay=1&controls=1&rel=0&modestbranding=1`} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
+        </div>
+        <a href={aerithTheme.source} target="_blank" rel="noreferrer">SQUARE ENIX MUSIC 官方演奏 <span>↗</span></a>
+      </aside>}
       <aside className={`passport-drawer ${passportOpen ? 'open' : ''}`} aria-hidden={!passportOpen}>
         <header><div><small>AERITH ARCHIVE PASSPORT</small><h2>探索护照</h2></div><button type="button" onClick={() => setPassportOpen(false)} aria-label="关闭探索护照">×</button></header>
         <div className="passport-total"><div style={{ '--progress': `${exploredPercent * 3.6}deg` } as React.CSSProperties}><strong>{exploredPercent}</strong><span>%</span></div><p><b>{exploredCount} / {exploredTotal}</b> 个档案印记<br /><small>{exploredPercent === 100 ? '花田已经记住了你的全部旅程。' : '打开内容、切换画面并种花，即可留下印记。'}</small></p></div>
@@ -427,7 +394,7 @@ export default function Home() {
           <div className="hero-actions">
             <a className="primary-action" href="#story">走进教堂 <span>↓</span></a>
             <button className="sound-action" type="button" onClick={toggleSound} aria-pressed={soundOn}>
-              <span className={`sound-bars ${soundOn ? 'is-playing' : ''}`}>Ⅲ</span> {soundOn ? `${soundscapes[soundMode].name}正在回响` : '聆听花语'}
+              <span className={`sound-bars ${soundOn ? 'is-playing' : ''}`}>Ⅲ</span> {soundOn ? '爱丽丝主题曲 · 播放中' : '聆听花语'}
             </button>
           </div>
         </div>
