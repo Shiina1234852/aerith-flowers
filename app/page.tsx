@@ -798,8 +798,14 @@ export default function Home() {
           <img className="egg-full-image" src={assetUrl('/cp/final-passport-easter-egg.png')} alt="星空舞会中，身着相衬礼服的成年爱丽丝与克劳德亲密对视" />
           <div className="egg-vignette" aria-hidden="true" />
           <div className="egg-flash" aria-hidden="true" />
+          <div className="egg-light-curtains" aria-hidden="true">{Array.from({ length: 7 }).map((_, index) => <i key={index} style={{ left: `${index * 16 - 5}%`, animationDelay: `${index * -.7}s` }} />)}</div>
+          <div className="egg-comets" aria-hidden="true">{Array.from({ length: 9 }).map((_, index) => <i key={index} style={{ left: `${6 + (index * 19) % 88}%`, top: `${5 + (index * 13) % 52}%`, animationDelay: `${index * -.83}s`, animationDuration: `${3.8 + index % 4}s` }} />)}</div>
+          <div className="egg-lightfall" aria-hidden="true">{Array.from({ length: 16 }).map((_, index) => <i key={index} style={{ left: `${2 + (index * 17) % 96}%`, animationDelay: `${index * -.37}s`, animationDuration: `${4.5 + index % 5}s` }} />)}</div>
+          <div className="egg-blooms" aria-hidden="true">{Array.from({ length: 12 }).map((_, index) => <i key={index} style={{ left: `${3 + (index * 29) % 94}%`, top: `${7 + (index * 23) % 82}%`, animationDelay: `${index * -.48}s` }} />)}</div>
           <div className="egg-rays" aria-hidden="true">{Array.from({ length: 12 }).map((_, index) => <i key={index} style={{ transform: `rotate(${index * 30}deg)` }} />)}</div>
-          <div className="egg-particles" aria-hidden="true">{Array.from({ length: 28 }).map((_, index) => <i key={index} style={{ left: `${(index * 37) % 100}%`, animationDelay: `${(index % 9) * -.42}s`, animationDuration: `${4.6 + (index % 6) * .55}s` }} />)}</div>
+          <div className="egg-particles egg-particles-back" aria-hidden="true">{Array.from({ length: 32 }).map((_, index) => <i key={index} style={{ left: `${(index * 37) % 100}%`, animationDelay: `${(index % 11) * -.42}s`, animationDuration: `${5.8 + (index % 6) * .65}s` }} />)}</div>
+          <div className="egg-particles egg-particles-front" aria-hidden="true">{Array.from({ length: 22 }).map((_, index) => <i key={index} style={{ left: `${(index * 43 + 9) % 100}%`, animationDelay: `${(index % 8) * -.58}s`, animationDuration: `${4.2 + (index % 5) * .55}s` }} />)}</div>
+          <div className="egg-prism" aria-hidden="true"><i /><i /><i /></div>
           <button type="button" className="egg-close" onClick={() => setEasterEggOpen(false)} aria-label="关闭最终彩蛋">×</button>
           <div className="egg-minimal-copy" onClick={(event) => event.stopPropagation()}><small>PASSPORT COMPLETE · 20 / 20</small><h2 id="final-egg-title">花海尽头，<em>只剩彼此。</em></h2><button type="button" onClick={() => setEasterEggOpen(false)}>珍藏这一刻 ✦</button></div>
         </div>
