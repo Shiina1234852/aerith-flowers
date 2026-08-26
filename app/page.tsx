@@ -799,7 +799,6 @@ export default function Home() {
           <div className="egg-vignette" aria-hidden="true" />
           <div className="egg-flash" aria-hidden="true" />
           <div className="egg-rays" aria-hidden="true">{Array.from({ length: 12 }).map((_, index) => <i key={index} style={{ transform: `rotate(${index * 30}deg)` }} />)}</div>
-          <div className="egg-rings" aria-hidden="true"><i /><i /><i /></div>
           <div className="egg-particles" aria-hidden="true">{Array.from({ length: 28 }).map((_, index) => <i key={index} style={{ left: `${(index * 37) % 100}%`, animationDelay: `${(index % 9) * -.42}s`, animationDuration: `${4.6 + (index % 6) * .55}s` }} />)}</div>
           <button type="button" className="egg-close" onClick={() => setEasterEggOpen(false)} aria-label="关闭最终彩蛋">×</button>
           <div className="egg-minimal-copy" onClick={(event) => event.stopPropagation()}><small>PASSPORT COMPLETE · 20 / 20</small><h2 id="final-egg-title">花海尽头，<em>只剩彼此。</em></h2><button type="button" onClick={() => setEasterEggOpen(false)}>珍藏这一刻 ✦</button></div>
