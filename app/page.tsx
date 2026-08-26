@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 
 const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
 
@@ -216,6 +216,8 @@ export default function Home() {
   const [selectedCpArt, setSelectedCpArt] = useState<number | null>(null);
   const [easterEggOpen, setEasterEggOpen] = useState(false);
   const [spotlightArt, setSpotlightArt] = useState(9);
+  const easterAudioRef = useRef<HTMLAudioElement | null>(null);
+  const easterFadeRef = useRef<number | null>(null);
   const visibleFanArt = fanFilter === '全部' ? fanArtworks : fanArtworks.filter((artwork) => artwork.category === fanFilter);
   const spotlightIndex = spotlightArt % visibleFanArt.length;
   const spotlight = visibleFanArt[spotlightIndex];
@@ -231,6 +233,10 @@ export default function Home() {
         if (savedProgress) setArchiveProgress(JSON.parse(savedProgress));
       });
     } catch { /* private browsing or malformed local state */ }
+    return () => {
+      if (easterFadeRef.current !== null) window.clearInterval(easterFadeRef.current);
+      easterAudioRef.current?.pause();
+    };
   }, []);
 
   useEffect(() => {
@@ -250,7 +256,7 @@ export default function Home() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') { setSelectedShot(null); setSelectedFanArt(null); setSelectedCpArt(null); setChapterOpen(false); setPassportOpen(false); setLabOpen(false); setEasterEggOpen(false); setSoundOn(false); }
+      if (event.key === 'Escape') { setSelectedShot(null); setSelectedFanArt(null); setSelectedCpArt(null); setChapterOpen(false); setPassportOpen(false); setLabOpen(false); closeEasterEgg(); setSoundOn(false); }
       if (selectedShot !== null && event.key === 'ArrowLeft') setSelectedShot((selectedShot - 1 + gallery.length) % gallery.length);
       if (selectedShot !== null && event.key === 'ArrowRight') setSelectedShot((selectedShot + 1) % gallery.length);
       if (selectedFanArt !== null && event.key === 'ArrowLeft') setSelectedFanArt((selectedFanArt - 1 + visibleFanArt.length) % visibleFanArt.length);
@@ -270,6 +276,45 @@ export default function Home() {
       setPlayerExpanded(true);
       setSoundOn(true);
     }
+  }
+
+  function startEasterEgg() {
+    setSoundOn(false);
+    setPassportOpen(false);
+    setEasterEggOpen(true);
+    const audio = easterAudioRef.current;
+    if (!audio) return;
+    if (easterFadeRef.current !== null) window.clearInterval(easterFadeRef.current);
+    audio.pause();
+    audio.currentTime = 0;
+    audio.volume = 0;
+    void audio.play().then(() => {
+      easterFadeRef.current = window.setInterval(() => {
+        audio.volume = Math.min(.86, audio.volume + .055);
+        if (audio.volume >= .86 && easterFadeRef.current !== null) {
+          window.clearInterval(easterFadeRef.current);
+          easterFadeRef.current = null;
+        }
+      }, 85);
+    }).catch(() => { /* autoplay may require a second user gesture in strict browsers */ });
+  }
+
+  function closeEasterEgg() {
+    setEasterEggOpen(false);
+    const audio = easterAudioRef.current;
+    if (!audio) return;
+    if (easterFadeRef.current !== null) window.clearInterval(easterFadeRef.current);
+    if (audio.paused) { audio.currentTime = 0; return; }
+    easterFadeRef.current = window.setInterval(() => {
+      audio.volume = Math.max(0, audio.volume - .085);
+      if (audio.volume <= 0 && easterFadeRef.current !== null) {
+        window.clearInterval(easterFadeRef.current);
+        easterFadeRef.current = null;
+        audio.pause();
+        audio.currentTime = 0;
+        audio.volume = .86;
+      }
+    }, 65);
   }
 
   function plantFlower(event: FormEvent) {
@@ -321,6 +366,7 @@ export default function Home() {
 
   return (
     <main className={soundOn ? 'is-listening' : undefined}>
+      <audio ref={easterAudioRef} src={assetUrl('/audio/no-promises-to-keep-chorus.mp3')} preload="auto" />
       {soundOn && <div className="music-atmosphere" aria-hidden="true"><div className="music-aurora" />{Array.from({ length: 12 }).map((_, index) => <i key={index} />)}</div>}
       <div className="archive-hud" aria-label="档案馆快捷工具">
         <button type="button" className="hud-chapters" onClick={() => { setChapterOpen(!chapterOpen); setPassportOpen(false); }} aria-expanded={chapterOpen}><span>☰</span><i>章节</i></button>
@@ -353,7 +399,7 @@ export default function Home() {
         <div className="passport-tasks">
           {passportTasks.map((task) => <a key={task.name} href={task.href} className={task.current >= task.target ? 'complete' : ''} onClick={() => setPassportOpen(false)}><span>{task.current >= task.target ? '✓' : task.glyph}</span><div><b>{task.name}</b><small>{task.note}</small><i><em style={{ width: `${task.current / task.target * 100}%` }} /></i></div><strong>{task.current}/{task.target}</strong></a>)}
         </div>
-        {exploredPercent === 100 && <button type="button" className="passport-easter-launch" onClick={() => { setPassportOpen(false); setEasterEggOpen(true); }}><span>✦</span><div><small>100% COMPLETE · SECRET UNLOCKED</small><b>开启克劳德 × 爱丽丝最终彩蛋</b></div><i>启动 →</i></button>}
+        {exploredPercent === 100 && <button type="button" className="passport-easter-launch" onClick={startEasterEgg}><span>✦</span><div><small>100% COMPLETE · SECRET UNLOCKED</small><b>开启克劳德 × 爱丽丝最终彩蛋</b></div><i>启动 →</i></button>}
         <p className="passport-local">所有进度只保存在当前设备，不需要登录。</p>
       </aside>
       <section className={`battle-lab ${labOpen ? 'open' : ''}`} role="dialog" aria-modal="true" aria-label="爱丽丝战术实验室" aria-hidden={!labOpen} style={{ '--lab-accent': activeBuild.accent } as React.CSSProperties}>
@@ -770,7 +816,7 @@ export default function Home() {
         </div>
       )}
       {easterEggOpen && (
-        <div className="final-easter-egg" role="dialog" aria-modal="true" aria-labelledby="final-egg-title" onClick={() => setEasterEggOpen(false)}>
+        <div className="final-easter-egg" role="dialog" aria-modal="true" aria-labelledby="final-egg-title" onClick={closeEasterEgg}>
           <img className="egg-full-image" src={assetUrl('/cp/final-passport-easter-egg.png')} alt="星空舞会中，身着相衬礼服的成年爱丽丝与克劳德亲密对视" />
           <div className="egg-vignette" aria-hidden="true" />
           <div className="egg-flash" aria-hidden="true" />
@@ -782,8 +828,9 @@ export default function Home() {
           <div className="egg-particles egg-particles-back" aria-hidden="true">{Array.from({ length: 32 }).map((_, index) => <i key={index} style={{ left: `${(index * 37) % 100}%`, animationDelay: `${(index % 11) * -.42}s`, animationDuration: `${5.8 + (index % 6) * .65}s` }} />)}</div>
           <div className="egg-particles egg-particles-front" aria-hidden="true">{Array.from({ length: 22 }).map((_, index) => <i key={index} style={{ left: `${(index * 43 + 9) % 100}%`, animationDelay: `${(index % 8) * -.58}s`, animationDuration: `${4.2 + (index % 5) * .55}s` }} />)}</div>
           <div className="egg-prism" aria-hidden="true"><i /><i /><i /></div>
-          <button type="button" className="egg-close" onClick={() => setEasterEggOpen(false)} aria-label="关闭最终彩蛋">×</button>
-          <div className="egg-minimal-copy" onClick={(event) => event.stopPropagation()}><small>PASSPORT COMPLETE · 20 / 20</small><h2 id="final-egg-title">花海尽头，<em>只剩彼此。</em></h2><button type="button" onClick={() => setEasterEggOpen(false)}>珍藏这一刻 ✦</button></div>
+          <div className="egg-song-credit" onClick={(event) => event.stopPropagation()}><span><i /><i /><i /><i /></span><div><small>NOW PLAYING · CHORUS</small><b>NO PROMISES TO KEEP</b></div></div>
+          <button type="button" className="egg-close" onClick={(event) => { event.stopPropagation(); closeEasterEgg(); }} aria-label="关闭最终彩蛋">×</button>
+          <div className="egg-minimal-copy" onClick={(event) => event.stopPropagation()}><small>PASSPORT COMPLETE · 20 / 20</small><h2 id="final-egg-title">花海尽头，<em>只剩彼此。</em></h2><button type="button" onClick={closeEasterEgg}>珍藏这一刻 ✦</button></div>
         </div>
       )}
     </main>
