@@ -78,10 +78,10 @@ const journey = [
 ];
 
 const versions = [
-  { year: '1997', label: 'FINAL FANTASY VII', title: '多边形时代的经典形象', text: '在原作里，她以贫民窟卖花女孩的身份登场。有限的模型与预渲染背景，反而让花、教堂和粉色长裙成为极鲜明的视觉记忆。', image: '/official/aerith-ffvii-original.jpg' },
-  { year: '2007', label: 'CRISIS CORE', title: '教堂与缎带的前日故事', text: '前传把时间拉回更早的米德加，补写她与扎克斯的相遇，也让花车、二十三封信和粉色缎带拥有了新的情感重量。', image: '/memory-cel-v3.png' },
-  { year: '2020', label: 'FINAL FANTASY VII REMAKE', title: '被重新听见的花语', text: '写实演出放大了她的俏皮、敏锐与坚韧。更细微的表情和动作，让“知道得比说出的更多”成为角色魅力的一部分。', image: '/church-scene-v2.png' },
-  { year: '2024', label: 'FINAL FANTASY VII REBIRTH', title: '走出米德加，走进世界', text: '广阔世界给了她新的旅途经验：骑陆行鸟、看海、与伙伴并肩作战，也让围绕命运的悬念成为叙事核心。', image: '/official/aerith-rebirth-headshot.png' },
+  { year: '1997', label: 'FINAL FANTASY VII', title: '多边形时代的经典形象', text: '在原作里，她以贫民窟卖花女孩的身份登场。有限的模型与预渲染背景，反而让花、教堂和粉色长裙成为极鲜明的视觉记忆。', image: '/official/aerith-ffvii-original.jpg', position: 'center', facts: ['PS1 原作', '预渲染场景', '低多边形角色'], source: '原作游戏画面' },
+  { year: '2007 / 2022', label: 'CRISIS CORE / REUNION', title: '教堂与缎带的前日故事', text: '前传把时间拉回更早的米德加，补写她与扎克斯的相遇，也让花车、二十三封信和粉色缎带拥有了新的情感重量。此处采用 2022 HD 重制版的对应时期造型。', image: '/official/eras/aerith-crisis-core-reunion.jpg', position: '22% center', facts: ['前传时期造型', '花车支线', 'Reunion HD 画面'], source: 'CRISIS CORE REUNION 游戏画面' },
+  { year: '2020', label: 'FINAL FANTASY VII REMAKE', title: '被重新听见的花语', text: '写实演出放大了她的俏皮、敏锐与坚韧。更细微的表情和动作，让“知道得比说出的更多”成为角色魅力的一部分。', image: '/official/eras/aerith-remake-2020.jpg', position: 'center', facts: ['米德加篇', '伍番街教堂', '实时面部演出'], source: 'REMAKE 游戏画面' },
+  { year: '2024', label: 'FINAL FANTASY VII REBIRTH', title: '走出米德加，走进世界', text: '广阔世界给了她新的旅途经验：骑陆行鸟、看海、与伙伴并肩作战，也让围绕命运的悬念成为叙事核心。', image: '/official/eras/aerith-rebirth-2024.jpg', position: 'center', facts: ['开放区域旅行', '联手能力', '高精度实时演出'], source: 'REBIRTH 游戏画面' },
 ];
 
 const gallery = [
@@ -92,21 +92,28 @@ const gallery = [
 ];
 
 const weapons = [
-  { name: 'Guard Stick', cn: '护卫长杖', ability: 'Arcane Ward', abilityCn: '秘法结界', atb: 1, chapter: '初始装备', location: '爱丽丝加入队伍时持有', role: 'SPELL × 2', tone: '#efbdcd', effect: '在地面布置结界。站在其中施放的攻击魔法会自动追加第二次咏唱。', tip: '适合与高阶元素魔法配合，是爱丽丝最标志性的爆发核心。' },
-  { name: 'Timeless Rod', cn: '永恒长杖', ability: 'Chrono Aegis', abilityCn: '时光神盾', atb: 1, chapter: 'CHAPTER 02', location: '格拉斯兰 · 比尔牧场，克萝伊商店右侧紫色宝箱', role: 'STOP FIELD', tone: '#72d6c0', effect: '在身边升起屏障，对试图近身攻击的敌人造成伤害，并暂时冻结其行动。', tip: '用于保护施法位置；被近战敌人包围时尤其有效。' },
-  { name: "Empress's Scepter", cn: '女帝权杖', ability: 'Radiant Ward', abilityCn: '光耀结界', atb: 1, chapter: 'CHAPTER 04', location: '下朱诺 · 旅馆内爱丽丝的房间', role: 'LASER WARD', tone: '#f1cf71', effect: '布置光耀结界：强化爱丽丝的普通攻击，并在结界中咏唱魔法时提供无敌保护。', tip: '能显著改善普攻与 ATB 获取节奏，也是安全施法的据点。' },
-  { name: "Wizard's Rod", cn: '巫师长杖', ability: 'Lustrous Shield', abilityCn: '光辉之盾', atb: 1, chapter: 'CHAPTER 07', location: '科雷尔山 · 休息点左侧小路的紫色宝箱', role: 'PROJECTILE GUARD', tone: '#80bddd', effect: '召唤魔法盾牌，将敌人隔开并阻挡来袭的远程投射物。', tip: '面对弹幕和直线远程攻击时，可以创造稳定的输出窗口。' },
-  { name: 'Ceremonial Staff', cn: '仪式长杖', ability: 'ATB Ward', abilityCn: 'ATB 结界', atb: 2, chapter: 'CHAPTER 10', location: '基族村落 · 放逐者海岸休息点', role: 'TEAM BATTERY', tone: '#c99ce5', effect: '布置 ATB 结界；在其中积累的 ATB 会同时为队友的 ATB 量表充能。', tip: '让高频行动转化为全队资源，适合围绕结界组织连续指令。' },
-  { name: 'Plumose Rod', cn: '羽翼长杖', ability: 'Ray of Judgment', abilityCn: '审判射线', atb: 1, chapter: 'CHAPTER 12', location: '神罗宅邸 · 完成「哀悼的诅咒」及全部模拟战后取得', role: 'STAGGER BURST', tone: '#f4a77c', effect: '发射多段命中的高能射线，并提高敌人的力竭伤害倍率。', tip: '在敌人即将或已经力竭时使用，能放大队伍的集中爆发。' },
-  { name: 'Gambanteinn', cn: '甘班泰因', ability: 'Noble Sacrifice', abilityCn: '高洁牺牲', atb: 2, chapter: 'CHAPTER 13', location: '古代种神殿 · Order’s Altar 楼梯下方紫色宝箱', role: 'LAST RESORT', tone: '#e8e5dc', effect: '牺牲爱丽丝，复活倒下的队友、恢复其生命，并解除不利状态。', tip: '逆转濒临团灭局面的终极手段；代价极高，应作为最后保险。' },
+  { name: 'Guard Stick', cn: '护卫长杖', ability: 'Arcane Ward', abilityCn: '秘法结界', atb: 1, chapter: '初始装备', location: '爱丽丝加入队伍时持有', role: 'SPELL × 2', tone: '#efbdcd', image: '/official/weapons/guard-stick.png', effect: '在地面布置结界。站在其中施放的攻击魔法会自动追加第二次咏唱。', tip: '适合与高阶元素魔法配合，是爱丽丝最标志性的爆发核心。' },
+  { name: 'Timeless Rod', cn: '永恒长杖', ability: 'Chrono Aegis', abilityCn: '时光神盾', atb: 1, chapter: 'CHAPTER 02', location: '格拉斯兰 · 比尔牧场，克萝伊商店右侧紫色宝箱', role: 'STOP FIELD', tone: '#72d6c0', image: '/official/weapons/timeless-rod.png', effect: '在身边升起屏障，对试图近身攻击的敌人造成伤害，并暂时冻结其行动。', tip: '用于保护施法位置；被近战敌人包围时尤其有效。' },
+  { name: "Empress's Scepter", cn: '女帝权杖', ability: 'Radiant Ward', abilityCn: '光耀结界', atb: 1, chapter: 'CHAPTER 04', location: '下朱诺 · 旅馆内爱丽丝的房间', role: 'LASER WARD', tone: '#f1cf71', image: '/official/weapons/empress-scepter.png', effect: '布置光耀结界：强化爱丽丝的普通攻击，并在结界中咏唱魔法时提供无敌保护。', tip: '能显著改善普攻与 ATB 获取节奏，也是安全施法的据点。' },
+  { name: "Wizard's Rod", cn: '巫师长杖', ability: 'Lustrous Shield', abilityCn: '光辉之盾', atb: 1, chapter: 'CHAPTER 07', location: '科雷尔山 · 休息点左侧小路的紫色宝箱', role: 'PROJECTILE GUARD', tone: '#80bddd', image: '/official/weapons/wizards-rod.png', effect: '召唤魔法盾牌，将敌人隔开并阻挡来袭的远程投射物。', tip: '面对弹幕和直线远程攻击时，可以创造稳定的输出窗口。' },
+  { name: 'Ceremonial Staff', cn: '仪式长杖', ability: 'ATB Ward', abilityCn: 'ATB 结界', atb: 2, chapter: 'CHAPTER 10', location: '基族村落 · 放逐者海岸休息点', role: 'TEAM BATTERY', tone: '#c99ce5', image: '/official/weapons/ceremonial-staff.png', effect: '布置 ATB 结界；在其中积累的 ATB 会同时为队友的 ATB 量表充能。', tip: '让高频行动转化为全队资源，适合围绕结界组织连续指令。' },
+  { name: 'Plumose Rod', cn: '羽翼长杖', ability: 'Ray of Judgment', abilityCn: '审判射线', atb: 1, chapter: 'CHAPTER 12', location: '神罗宅邸 · 完成「哀悼的诅咒」及全部模拟战后取得', role: 'STAGGER BURST', tone: '#f4a77c', image: '/official/weapons/plumose-rod.png', effect: '发射多段命中的高能射线，并提高敌人的力竭伤害倍率。', tip: '在敌人即将或已经力竭时使用，能放大队伍的集中爆发。' },
+  { name: 'Gambanteinn', cn: '甘班泰因', ability: 'Noble Sacrifice', abilityCn: '高洁牺牲', atb: 2, chapter: 'CHAPTER 13', location: '古代种神殿 · Order’s Altar 楼梯下方紫色宝箱', role: 'LAST RESORT', tone: '#e8e5dc', image: '/official/weapons/gambanteinn.png', effect: '牺牲爱丽丝，复活倒下的队友、恢复其生命，并解除不利状态。', tip: '逆转濒临团灭局面的终极手段；代价极高，应作为最后保险。' },
 ];
 
 const cpMoments = [
-  { no: '01', title: '一朵花的价格', place: '壹号魔晄炉之后', cloud: '他接过的也许只是一朵花，却第一次在任务之外回应了一个陌生人的善意。', aerith: '她主动走近这个沉默的佣兵，用一朵花把短暂相遇变成了可以被记住的事。', color: '#e6c36e' },
-  { no: '02', title: '一次约会的报酬', place: '伍番街教堂', cloud: '“护卫”原本是明确的工作，但她轻快地改写了报酬，也一步步打乱了他的距离感。', aerith: '她把危险说成玩笑，把逃亡变成同行；主动伸出的手，让他有机会选择留下。', color: '#dc8fa0' },
-  { no: '03', title: '屋顶上的路', place: '贫民窟上空', cloud: '笨拙地走在前面、确认她有没有跟上，是他不擅长说出口的在意。', aerith: '她看见他故作冷静的外壳，也总能用一句玩笑，让那份保护不再只是职责。', color: '#73cdb5' },
-  { no: '04', title: '星空下的约会', place: '金碟游乐园', cloud: '喧闹的灯光里，他终于不只是被推着前进，而是认真听见她想被看见的那部分。', aerith: '她寻找的不是另一个人的影子，而是此刻坐在身边、仍在学习成为自己的克劳德。', color: '#8fa9dc' },
-  { no: '05', title: '未说完的话', place: '命运的边界', cloud: '有些回答来得太迟，于是保护的承诺变成跨越记忆与世界线的执念。', aerith: '她仍以微笑送他向前；离别没有抹去相遇，反而让那朵花成为永远的路标。', color: '#cda6d9' },
+  { no: '01', title: '一朵花的价格', place: '壹号魔晄炉之后', image: '/cp/01-flower-offer.png', alt: '雨夜街头，爱丽丝与克劳德面对面递出黄色花朵的二创画', caption: '“收下吧——今天很特别。”', cloud: '他接过的也许只是一朵花，却第一次在任务之外回应了一个陌生人的善意。', aerith: '她主动走近这个沉默的佣兵，用一朵花把短暂相遇变成了可以被记住的事。', color: '#e6c36e' },
+  { no: '02', title: '一次约会的报酬', place: '伍番街教堂', image: '/cp/02-church-bargain.png', alt: '水彩风格的教堂花田中，爱丽丝与克劳德商量护卫报酬', caption: '“报酬嘛——一次约会。”', cloud: '“护卫”原本是明确的工作，但她轻快地改写了报酬，也一步步打乱了他的距离感。', aerith: '她把危险说成玩笑，把逃亡变成同行；主动伸出的手，让他有机会选择留下。', color: '#dc8fa0' },
+  { no: '03', title: '屋顶上的路', place: '贫民窟上空', image: '/cp/03-rooftop-hand.png', alt: '米德加屋顶上面对面牵手的爱丽丝与克劳德二创画', caption: '“这次，换我带你走。”', cloud: '笨拙地走在前面、确认她有没有跟上，是他不擅长说出口的在意。', aerith: '她看见他故作冷静的外壳，也总能用一句玩笑，让那份保护不再只是职责。', color: '#73cdb5' },
+  { no: '04', title: '星空下的约会', place: '金碟游乐园', image: '/cp/04-gold-saucer-date.png', alt: '金碟游乐园贡多拉中相互凝望的爱丽丝与克劳德二创画', caption: '“我想见的，是现在的你。”', cloud: '喧闹的灯光里，他终于不只是被推着前进，而是认真听见她想被看见的那部分。', aerith: '她寻找的不是另一个人的影子，而是此刻坐在身边、仍在学习成为自己的克劳德。', color: '#8fa9dc' },
+  { no: '05', title: '未说完的话', place: '命运的边界', image: '/cp/05-fate-echo.png', alt: '暮色花海与生命之流之间遥望的爱丽丝与克劳德二创画', caption: '“别让相遇只剩下告别。”', cloud: '有些回答来得太迟，于是保护的承诺变成跨越记忆与世界线的执念。', aerith: '她仍以微笑送他向前；离别没有抹去相遇，反而让那朵花成为永远的路标。', color: '#cda6d9' },
+];
+
+const intimateCpArt = [
+  { image: '/cp/06-collar-tease.png', title: '再靠近一点', note: '她勾住衣领，把一句玩笑变成近在咫尺的心跳。', style: 'SHOUJO WATERCOLOR' },
+  { image: '/cp/07-balcony-whisper.png', title: '烟火背后的耳语', note: '金碟的灯火太亮，只有贴近耳边的话足够私密。', style: 'CINEMATIC NIGHT' },
+  { image: '/cp/08-almost-kiss.png', title: '月光差一步', note: '花房里没有观众，他们都没有先移开视线。', style: 'ROMANTIC OIL' },
+  { image: '/cp/09-slow-dance.png', title: '闭馆后的慢舞', note: '喧闹散场之后，她握住他的手，教他跟上节拍。', style: 'ART NOUVEAU' },
 ];
 
 const chapters = [
@@ -148,12 +155,6 @@ const labScenarios = [
 ];
 
 const fanArtworks = [
-  { image: '/aerith-art-nouveau-card.png', title: '花之档案', style: '新艺术 · 蛋彩', category: '传统绘画', alt: '新艺术花卉边框中的爱丽丝全身像' },
-  { image: '/memory-watercolor-v3.png', title: '雨后的花', style: '透明水彩', category: '传统绘画', alt: '雨后氛围中的爱丽丝水彩画' },
-  { image: '/memory-oil-v3.png', title: '星球记得', style: '印象派油画', category: '传统绘画', alt: '爱丽丝与生命之流的印象派油画' },
-  { image: '/memory-cel-v3.png', title: '旧站台回望', style: '手绘赛璐璐', category: '动画', alt: '爱丽丝在旧站台回望的赛璐璐动画画面' },
-  { image: '/church-bench.png', title: '长椅上的回声', style: '动画背景 · 水粉', category: '动画', alt: '爱丽丝坐在废墟教堂的旧木长椅' },
-  { image: '/church-roof.png', title: '一束天空', style: '电影哑光绘景', category: '概念艺术', alt: '爱丽丝仰望教堂屋顶局部光束' },
   { image: '/fanart/lifestream-ukiyoe.png', title: '星之川', style: '浮世绘木版', category: '实验风格', alt: '爱丽丝站在生命之流与百合之间的浮世绘' },
   { image: '/fanart/coast-pastel.png', title: '第一次看海', style: '粉彩 · 彩铅', category: '传统绘画', alt: '爱丽丝赤脚走在海边的粉彩画' },
   { image: '/fanart/midgar-risograph.png', title: '钢铁之花', style: '套色绢印 · Risograph', category: '实验风格', alt: '爱丽丝与米德加钢铁结构的复古套色海报' },
@@ -163,11 +164,11 @@ const fanArtworks = [
   { image: '/fanart/church-romantic-oil.png', title: '旧日温室', style: '浪漫主义油画', category: '传统绘画', alt: '古典油画风格的爱丽丝在长满花草的教堂中采花' },
   { image: '/fanart/open-sky-pastel.png', title: '第一次走向天空', style: '粉彩 · 彩色铅笔', category: '传统绘画', alt: '粉彩画风格的爱丽丝赤脚走过晨光花田' },
   { image: '/fanart/planet-cyanotype.png', title: '星球蓝图', style: '蓝晒 · 石墨', category: '实验风格', alt: '蓝晒植物志风格的爱丽丝侧身凝望黄色花朵' },
-  { image: '/fanart/church-clay-diorama.png', title: '掌心教堂', style: '定格黏土 · 微缩场景', category: '工艺影像', alt: '定格黏土微缩场景中的爱丽丝在小教堂照料百合' },
+  { image: '/fanart/church-handpainted-cinema.png', title: '花田里的晨光', style: '电影动画 · 手绘', category: '动画', alt: '手绘电影动画风格的爱丽丝在小教堂花田中整理鲜花' },
   { image: '/fanart/rooftop-blue-hour.png', title: '雨洗过的屋顶', style: '电影感写实', category: '电影视觉', alt: '蓝调时刻的米德加屋顶花园中爱丽丝轻触花朵' },
 ];
 
-const fanFilters = ['全部', '传统绘画', '动画', '概念艺术', '装饰艺术', '工艺影像', '电影视觉', '实验风格'];
+const fanFilters = ['全部', '传统绘画', '动画', '装饰艺术', '电影视觉', '实验风格'];
 
 type ArchiveProgress = { weapons: number[]; church: number[]; cp: number[]; gallery: number[] };
 
@@ -210,6 +211,7 @@ export default function Home() {
   const [labScenario, setLabScenario] = useState(0);
   const [fanFilter, setFanFilter] = useState('全部');
   const [selectedFanArt, setSelectedFanArt] = useState<number | null>(null);
+  const [selectedCpArt, setSelectedCpArt] = useState<number | null>(null);
   const [spotlightArt, setSpotlightArt] = useState(9);
   const audioRef = useRef<{ context: AudioContext; nodes: OscillatorNode[] } | null>(null);
   const visibleFanArt = fanFilter === '全部' ? fanArtworks : fanArtworks.filter((artwork) => artwork.category === fanFilter);
@@ -250,16 +252,18 @@ export default function Home() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') { setSelectedShot(null); setSelectedFanArt(null); setChapterOpen(false); setPassportOpen(false); setLabOpen(false); }
+      if (event.key === 'Escape') { setSelectedShot(null); setSelectedFanArt(null); setSelectedCpArt(null); setChapterOpen(false); setPassportOpen(false); setLabOpen(false); }
       if (selectedShot !== null && event.key === 'ArrowLeft') setSelectedShot((selectedShot - 1 + gallery.length) % gallery.length);
       if (selectedShot !== null && event.key === 'ArrowRight') setSelectedShot((selectedShot + 1) % gallery.length);
       if (selectedFanArt !== null && event.key === 'ArrowLeft') setSelectedFanArt((selectedFanArt - 1 + visibleFanArt.length) % visibleFanArt.length);
       if (selectedFanArt !== null && event.key === 'ArrowRight') setSelectedFanArt((selectedFanArt + 1) % visibleFanArt.length);
+      if (selectedCpArt !== null && event.key === 'ArrowLeft') setSelectedCpArt((selectedCpArt - 1 + intimateCpArt.length) % intimateCpArt.length);
+      if (selectedCpArt !== null && event.key === 'ArrowRight') setSelectedCpArt((selectedCpArt + 1) % intimateCpArt.length);
     };
     window.addEventListener('keydown', onKeyDown);
-    document.body.style.overflow = selectedShot !== null || selectedFanArt !== null || labOpen ? 'hidden' : '';
+    document.body.style.overflow = selectedShot !== null || selectedFanArt !== null || selectedCpArt !== null || labOpen ? 'hidden' : '';
     return () => { window.removeEventListener('keydown', onKeyDown); document.body.style.overflow = ''; };
-  }, [selectedShot, selectedFanArt, labOpen, visibleFanArt.length]);
+  }, [selectedShot, selectedFanArt, selectedCpArt, labOpen, visibleFanArt.length]);
 
   function stopSoundscape() {
     if (audioRef.current) {
@@ -500,10 +504,11 @@ export default function Home() {
             ))}
           </div>
           <article className="weapon-display" role="tabpanel">
-            <div className="weapon-art" aria-hidden="true">
-              <div className={`staff-shape staff-${activeWeapon + 1}`}><i /><b /><span /></div>
-              <p>{weapons[activeWeapon].role}</p>
+            <div className="weapon-art">
+              <img key={weapons[activeWeapon].image} src={assetUrl(weapons[activeWeapon].image)} alt={`${weapons[activeWeapon].name} 在《FINAL FANTASY VII REBIRTH》装备界面中的实机原图`} loading="lazy" decoding="async" />
+              <p>{weapons[activeWeapon].role} · IN-GAME CAPTURE</p>
               <em>{String(activeWeapon + 1).padStart(2, '0')}</em>
+              <a href="https://www.destructoid.com/ff7-rebirth-all-aerith-weapons-locations/" target="_blank" rel="noreferrer">原图与数据来源 ↗</a>
             </div>
             <div className="weapon-copy">
               <div className="weapon-topline"><span>{weapons[activeWeapon].chapter}</span><small>{weapons[activeWeapon].atb} ATB</small></div>
@@ -570,7 +575,7 @@ export default function Home() {
             ))}
           </div>
           <article className="cp-card" role="tabpanel">
-            <div className="cp-photo"><img src={assetUrl('/hero-cover.png')} alt="黄色花海中的爱丽丝伸出手" loading="lazy" decoding="async" /><span>“花，想买吗？”</span></div>
+            <div className="cp-photo"><img key={cpMoments[activeCp].image} src={assetUrl(cpMoments[activeCp].image)} alt={cpMoments[activeCp].alt} loading="lazy" decoding="async" /><span>{cpMoments[activeCp].caption}</span></div>
             <div className="cp-story">
               <p>{cpMoments[activeCp].no} · {cpMoments[activeCp].place}</p><h3>{cpMoments[activeCp].title}</h3>
               <div className="view-toggle" role="group" aria-label="选择故事视角"><button type="button" className={cpView === 'cloud' ? 'active' : ''} onClick={() => setCpView('cloud')}>克劳德视角</button><button type="button" className={cpView === 'aerith' ? 'active' : ''} onClick={() => setCpView('aerith')}>爱丽丝视角</button></div>
@@ -578,6 +583,10 @@ export default function Home() {
               <div className="cp-nav"><button type="button" onClick={() => selectCpMoment((activeCp - 1 + cpMoments.length) % cpMoments.length)}>←</button><span>{activeCp + 1} / {cpMoments.length}</span><button type="button" onClick={() => selectCpMoment((activeCp + 1) % cpMoments.length)}>→</button></div>
             </div>
           </article>
+        </div>
+        <div className="cp-intimate-heading"><div><small>AFTER HOURS · FAN SPECIAL</small><h3>暧昧发生在，<br />再靠近一点之后。</h3></div><p>四张独立二创用眼神、距离与肢体语言延伸两人的默契。均为成年角色、非露骨的浪漫演绎。</p></div>
+        <div className="cp-intimate-grid">
+          {intimateCpArt.map((art, index) => <button type="button" key={art.image} onClick={() => setSelectedCpArt(index)}><img src={assetUrl(art.image)} alt={`克劳德与爱丽丝的暧昧二创：${art.title}`} loading="lazy" decoding="async" /><span><small>{String(index + 1).padStart(2, '0')} · {art.style}</small><b>{art.title}</b><i>{art.note}</i></span></button>)}
         </div>
       </section>
 
@@ -621,7 +630,7 @@ export default function Home() {
       </section>
 
       <section className="fanart-section" id="fanart">
-        <div className="fanart-heading"><div><p className="kicker">AERITH ORIGINAL ART MUSEUM</p><h2>十七种笔触，<br />画同一朵花。</h2></div><p>官方资料与同人创作在这里清晰分区。画廊现收录十七幅非商业二创，覆盖传统绘画、工艺、装饰艺术与电影视觉；像素风已从策展中移除。</p></div>
+        <div className="fanart-heading"><div><p className="kicker">AERITH ORIGINAL ART MUSEUM</p><h2>十一种笔触，<br />画同一朵花。</h2></div><p>这里仅保留专为画廊制作、未在其他章节使用的十一幅非商业二创。封面、剧情卡牌与记忆插画不再重复展出；像素风也已从策展中移除。</p></div>
         <article className="fanart-spotlight" style={{ '--spotlight-image': `url(${assetUrl(spotlight.image)})` } as React.CSSProperties}>
           <button type="button" className="spotlight-image" onClick={() => openFanArtwork(spotlightIndex)} aria-label={`查看精选作品：${spotlight.title}`}><img src={assetUrl(spotlight.image)} alt={spotlight.alt} /></button>
           <div className="spotlight-copy"><small>CURATOR&apos;S SPOTLIGHT · {String(spotlightIndex + 1).padStart(2, '0')}</small><h3>{spotlight.title}</h3><p>{spotlight.style}</p><div><button type="button" onClick={() => setSpotlightArt((spotlightIndex - 1 + visibleFanArt.length) % visibleFanArt.length)} aria-label="上一幅精选作品">←</button><span>{spotlightIndex + 1} / {visibleFanArt.length}</span><button type="button" onClick={() => setSpotlightArt((spotlightIndex + 1) % visibleFanArt.length)} aria-label="下一幅精选作品">→</button><button type="button" className="spotlight-open" onClick={() => openFanArtwork(spotlightIndex)}>沉浸观画 ↗</button></div></div>
@@ -631,9 +640,9 @@ export default function Home() {
           <button type="button" className="random-art" onClick={() => { const randomIndex = Math.floor(Math.random() * visibleFanArt.length); setSpotlightArt(randomIndex); openFanArtwork(randomIndex); }}>✦ 随机看一幅</button>
         </div>
         <div className="fanart-grid">
-          {visibleFanArt.map((artwork, index) => <button type="button" className={`fanart-card fanart-${index + 1} ${spotlightIndex === index ? 'curator-selected' : ''}`} key={artwork.image} onClick={() => { setSpotlightArt(index); openFanArtwork(index); }}><img src={assetUrl(artwork.image)} alt={artwork.alt} loading="lazy" decoding="async" /><span><small>{String(index + 1).padStart(2, '0')} · {artwork.style}</small><b>{artwork.title}</b><i>VIEW FULL ART ↗</i></span></button>)}
+          {visibleFanArt.map((artwork, index) => ({ artwork, index })).filter(({ index }) => index !== spotlightIndex).map(({ artwork, index }) => <button type="button" className={`fanart-card fanart-${index + 1}`} key={artwork.image} onClick={() => { setSpotlightArt(index); openFanArtwork(index); }}><img src={assetUrl(artwork.image)} alt={artwork.alt} loading="lazy" decoding="async" /><span><small>{String(index + 1).padStart(2, '0')} · {artwork.style}</small><b>{artwork.title}</b><i>VIEW FULL ART ↗</i></span></button>)}
         </div>
-        <p className="fanart-credit">SEVENTEEN ORIGINAL FAN WORKS · CREATED FOR FLOWERS BENEATH THE SKY · 非商业同人创作</p>
+        <p className="fanart-credit">ELEVEN UNIQUE FAN WORKS · NO REUSED STORY ASSETS · CREATED FOR FLOWERS BENEATH THE SKY · 非商业同人创作</p>
       </section>
 
       <section className="versions-section" id="versions">
@@ -647,8 +656,8 @@ export default function Home() {
             ))}
           </div>
           <article className="version-card" role="tabpanel">
-            <div className="version-visual"><img src={assetUrl(versions[activeVersion].image)} alt={`${versions[activeVersion].label}中的爱丽丝形象`} loading="lazy" decoding="async" /></div>
-            <div><small>{versions[activeVersion].year} · {versions[activeVersion].label}</small><h3>{versions[activeVersion].title}</h3><p>{versions[activeVersion].text}</p></div>
+            <div className="version-visual"><img src={assetUrl(versions[activeVersion].image)} alt={`${versions[activeVersion].label}中的爱丽丝形象`} style={{ objectPosition: versions[activeVersion].position }} loading="lazy" decoding="async" /></div>
+            <div><small>{versions[activeVersion].year} · {versions[activeVersion].label}</small><h3>{versions[activeVersion].title}</h3><p>{versions[activeVersion].text}</p><div className="version-facts">{versions[activeVersion].facts.map((fact) => <span key={fact}>{fact}</span>)}</div><p className="version-source">IMAGE · {versions[activeVersion].source}</p></div>
           </article>
         </div>
       </section>
@@ -696,6 +705,8 @@ export default function Home() {
           <a href="https://www.square-enix.com/ffvii/en-us/games/rebirth/world/" target="_blank" rel="noreferrer"><span>03</span><b>REBIRTH · 世界区域与旅途剧照</b><i>↗</i></a>
           <a href="https://na.finalfantasy.com/titles/finalfantasy7" target="_blank" rel="noreferrer"><span>04</span><b>FINAL FANTASY VII · 原作角色资料</b><i>↗</i></a>
           <a href="https://blog.playstation.com/2024/01/29/final-fantasy-vii-rebirth-square-enix-discusses-reimagining-iconic-characters-sephiroth-and-aerith/" target="_blank" rel="noreferrer"><span>05</span><b>制作访谈 · 重塑爱丽丝与命运主题</b><i>↗</i></a>
+          <a href="https://www.destructoid.com/ff7-rebirth-all-aerith-weapons-locations/" target="_blank" rel="noreferrer"><span>06</span><b>REBIRTH · 七件法杖实机截图与取得位置</b><i>↗</i></a>
+          <a href="https://www.square-enix.com/ffvii/en-gb/games/crisis-core/" target="_blank" rel="noreferrer"><span>07</span><b>CRISIS CORE REUNION · 官方作品页</b><i>↗</i></a>
         </div>
       </section>
 
@@ -769,6 +780,15 @@ export default function Home() {
           <figure onClick={(event) => event.stopPropagation()}><img src={assetUrl(visibleFanArt[selectedFanArt].image)} alt={visibleFanArt[selectedFanArt].alt} /><figcaption><small>{visibleFanArt[selectedFanArt].style} · ORIGINAL FAN WORK</small><h3>{visibleFanArt[selectedFanArt].title}</h3><p>{selectedFanArt + 1} / {visibleFanArt.length}</p></figcaption></figure>
           <button type="button" className="fanlight-arrow next" onClick={(event) => { event.stopPropagation(); openFanArtwork((selectedFanArt + 1) % visibleFanArt.length); }} aria-label="下一幅作品">→</button>
           <p className="fanlight-hint">← → 切换作品 · ESC 返回画廊</p>
+        </div>
+      )}
+      {selectedCpArt !== null && (
+        <div className="fanart-lightbox" role="dialog" aria-modal="true" aria-label={intimateCpArt[selectedCpArt].title} onClick={() => setSelectedCpArt(null)}>
+          <button type="button" className="fanlight-close" onClick={() => setSelectedCpArt(null)} aria-label="关闭暧昧特辑作品">×</button>
+          <button type="button" className="fanlight-arrow prev" onClick={(event) => { event.stopPropagation(); setSelectedCpArt((selectedCpArt - 1 + intimateCpArt.length) % intimateCpArt.length); }} aria-label="上一幅暧昧特辑">←</button>
+          <figure onClick={(event) => event.stopPropagation()}><img src={assetUrl(intimateCpArt[selectedCpArt].image)} alt={`克劳德与爱丽丝的暧昧二创：${intimateCpArt[selectedCpArt].title}`} /><figcaption><small>{intimateCpArt[selectedCpArt].style} · CLOUD × AERITH FAN WORK</small><h3>{intimateCpArt[selectedCpArt].title}</h3><p>{intimateCpArt[selectedCpArt].note}</p></figcaption></figure>
+          <button type="button" className="fanlight-arrow next" onClick={(event) => { event.stopPropagation(); setSelectedCpArt((selectedCpArt + 1) % intimateCpArt.length); }} aria-label="下一幅暧昧特辑">→</button>
+          <p className="fanlight-hint">← → 切换作品 · ESC 返回专栏</p>
         </div>
       )}
     </main>
