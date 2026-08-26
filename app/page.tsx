@@ -135,6 +135,8 @@ const aerithTheme = {
   artist: '植松伸夫 · 东京爱乐交响乐团',
   videoId: 'rXUq2EGCROg',
   source: 'https://www.youtube.com/watch?v=rXUq2EGCROg',
+  originalSoundtrack: 'https://music.apple.com/us/song/61017453',
+  spotify: 'https://open.spotify.com/track/18sDWMHFfgDOh1zMrFJt1C',
 };
 
 const buildGoals = [
@@ -192,6 +194,7 @@ export default function Home() {
   const [message, setMessage] = useState('愿每一次相遇，都像花开一样温柔。');
   const [flowers, setFlowers] = useState<PlantedFlower[]>([]);
   const [soundOn, setSoundOn] = useState(false);
+  const [playerExpanded, setPlayerExpanded] = useState(true);
   const [notice, setNotice] = useState('');
   const [activeRelation, setActiveRelation] = useState(0);
   const [activeVersion, setActiveVersion] = useState(3);
@@ -249,7 +252,7 @@ export default function Home() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') { setSelectedShot(null); setSelectedFanArt(null); setSelectedCpArt(null); setChapterOpen(false); setPassportOpen(false); setLabOpen(false); setEasterEggOpen(false); }
+      if (event.key === 'Escape') { setSelectedShot(null); setSelectedFanArt(null); setSelectedCpArt(null); setChapterOpen(false); setPassportOpen(false); setLabOpen(false); setEasterEggOpen(false); setSoundOn(false); }
       if (selectedShot !== null && event.key === 'ArrowLeft') setSelectedShot((selectedShot - 1 + gallery.length) % gallery.length);
       if (selectedShot !== null && event.key === 'ArrowRight') setSelectedShot((selectedShot + 1) % gallery.length);
       if (selectedFanArt !== null && event.key === 'ArrowLeft') setSelectedFanArt((selectedFanArt - 1 + visibleFanArt.length) % visibleFanArt.length);
@@ -263,7 +266,12 @@ export default function Home() {
   }, [selectedShot, selectedFanArt, selectedCpArt, labOpen, easterEggOpen, visibleFanArt.length]);
 
   function toggleSound() {
-    setSoundOn((current) => !current);
+    if (soundOn) {
+      setSoundOn(false);
+    } else {
+      setPlayerExpanded(true);
+      setSoundOn(true);
+    }
   }
 
   function plantFlower(event: FormEvent) {
@@ -314,7 +322,8 @@ export default function Home() {
   ];
 
   return (
-    <main>
+    <main className={soundOn ? 'is-listening' : undefined}>
+      {soundOn && <div className="music-atmosphere" aria-hidden="true"><div className="music-aurora" />{Array.from({ length: 12 }).map((_, index) => <i key={index} />)}</div>}
       <div className="archive-hud" aria-label="档案馆快捷工具">
         <button type="button" className="hud-chapters" onClick={() => { setChapterOpen(!chapterOpen); setPassportOpen(false); }} aria-expanded={chapterOpen}><span>☰</span><i>章节</i></button>
         <button type="button" className="hud-progress" onClick={() => { setPassportOpen(!passportOpen); setChapterOpen(false); }} aria-expanded={passportOpen} style={{ '--progress': `${exploredPercent * 3.6}deg` } as React.CSSProperties}><strong>{exploredPercent}</strong><small>%</small><i>探索护照</i></button>
@@ -330,13 +339,15 @@ export default function Home() {
         <div className="soundscape-picker theme-picker"><span>OFFICIAL MUSIC PERFORMANCE</span><button type="button" className={soundOn ? 'active' : ''} onClick={toggleSound} style={{ '--tone': '#efc86f' } as React.CSSProperties}><i>{soundOn ? 'Ⅱ' : '♪'}</i><b>{aerithTheme.title}</b><small>{aerithTheme.en} · NOBUO UEMATSU</small></button></div>
         <p>当前阅读进度 · {scrollProgress}%</p>
       </aside>
-      {soundOn && <aside className="theme-player" aria-label="爱丽丝主题曲播放器">
-        <div className="theme-player-heading"><span><i>♪</i> NOW PLAYING</span><button type="button" onClick={() => setSoundOn(false)} aria-label="关闭音乐播放器">×</button></div>
-        <div className="theme-player-title"><div className="theme-disc" aria-hidden="true"><span>✦</span></div><p><b>{aerithTheme.title}</b><small>{aerithTheme.en}<br />{aerithTheme.artist}</small></p></div>
-        <div className="theme-player-video">
-          <iframe title="Aerith's Theme — SQUARE ENIX MUSIC 官方演奏" src={`https://www.youtube-nocookie.com/embed/${aerithTheme.videoId}?autoplay=1&controls=1&rel=0&modestbranding=1`} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
+      {soundOn && <aside className={`theme-player ${playerExpanded ? 'expanded' : 'collapsed'}`} aria-label="爱丽丝主题曲播放器">
+        <div className="theme-player-heading"><span><i>♪</i><b>{aerithTheme.title}</b><small>NOW PLAYING</small></span><div><button type="button" onClick={() => setPlayerExpanded((current) => !current)} aria-label={playerExpanded ? '收起音乐播放器' : '展开音乐播放器'}>{playerExpanded ? '⌄' : '⌃'}</button><button type="button" onClick={() => setSoundOn(false)} aria-label="关闭音乐播放器">×</button></div></div>
+        <div className="theme-player-body">
+          <div className="theme-player-title"><div className="theme-disc" aria-hidden="true"><span>✦</span></div><p><b>{aerithTheme.en}</b><small>{aerithTheme.artist}<br />FINAL FANTASY VII REMAKE ORCHESTRA</small></p></div>
+          <div className="theme-player-video">
+            <iframe title="Aerith's Theme — SQUARE ENIX MUSIC 官方演奏" src={`https://www.youtube-nocookie.com/embed/${aerithTheme.videoId}?autoplay=1&controls=1&rel=0&modestbranding=1`} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
+          </div>
+          <div className="theme-player-links"><a href={aerithTheme.source} target="_blank" rel="noreferrer">官方演奏 <span>↗</span></a><a href={aerithTheme.originalSoundtrack} target="_blank" rel="noreferrer">1997 原声 <span>↗</span></a><a href={aerithTheme.spotify} target="_blank" rel="noreferrer">Spotify <span>↗</span></a></div>
         </div>
-        <a href={aerithTheme.source} target="_blank" rel="noreferrer">SQUARE ENIX MUSIC 官方演奏 <span>↗</span></a>
       </aside>}
       <aside className={`passport-drawer ${passportOpen ? 'open' : ''}`} aria-hidden={!passportOpen}>
         <header><div><small>AERITH ARCHIVE PASSPORT</small><h2>探索护照</h2></div><button type="button" onClick={() => setPassportOpen(false)} aria-label="关闭探索护照">×</button></header>
