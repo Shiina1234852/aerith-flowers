@@ -215,7 +215,6 @@ export default function Home() {
   const [easterEggOpen, setEasterEggOpen] = useState(false);
   const [spotlightArt, setSpotlightArt] = useState(9);
   const audioRef = useRef<{ context: AudioContext; nodes: OscillatorNode[] } | null>(null);
-  const completionCelebratedRef = useRef(false);
   const visibleFanArt = fanFilter === '全部' ? fanArtworks : fanArtworks.filter((artwork) => artwork.category === fanFilter);
   const spotlightIndex = spotlightArt % visibleFanArt.length;
   const spotlight = visibleFanArt[spotlightIndex];
@@ -355,16 +354,6 @@ export default function Home() {
     { glyph: '✦', name: '花田守护者', note: '在互动花园种下一朵花', current: flowers.length ? 1 : 0, target: 1, href: '#garden' },
   ];
 
-  useEffect(() => {
-    if (exploredPercent !== 100 || completionCelebratedRef.current) return;
-    completionCelebratedRef.current = true;
-    const revealTimer = window.setTimeout(() => {
-      setPassportOpen(false);
-      setEasterEggOpen(true);
-    }, 650);
-    return () => window.clearTimeout(revealTimer);
-  }, [exploredPercent]);
-
   return (
     <main>
       <div className="archive-hud" aria-label="档案馆快捷工具">
@@ -388,11 +377,7 @@ export default function Home() {
         <div className="passport-tasks">
           {passportTasks.map((task) => <a key={task.name} href={task.href} className={task.current >= task.target ? 'complete' : ''} onClick={() => setPassportOpen(false)}><span>{task.current >= task.target ? '✓' : task.glyph}</span><div><b>{task.name}</b><small>{task.note}</small><i><em style={{ width: `${task.current / task.target * 100}%` }} /></i></div><strong>{task.current}/{task.target}</strong></a>)}
         </div>
-        <div className={`passport-secret ${exploredPercent === 100 ? 'unlocked' : ''}`}>
-          <span>{exploredPercent === 100 ? '✦' : '◇'}</span>
-          <div><small>FINAL ARCHIVE · CLOUD × AERITH</small><b>{exploredPercent === 100 ? '星空下的秘密约会' : '一份尚未署名的最终档案'}</b></div>
-          {exploredPercent === 100 ? <button type="button" onClick={() => { setPassportOpen(false); setEasterEggOpen(true); }}>再次开启彩蛋</button> : <i>{exploredCount}/{exploredTotal}</i>}
-        </div>
+        {exploredPercent === 100 && <button type="button" className="passport-easter-launch" onClick={() => { setPassportOpen(false); setEasterEggOpen(true); }}><span>✦</span><div><small>100% COMPLETE · SECRET UNLOCKED</small><b>开启克劳德 × 爱丽丝最终彩蛋</b></div><i>启动 →</i></button>}
         <p className="passport-local">所有进度只保存在当前设备，不需要登录。</p>
       </aside>
       <section className={`battle-lab ${labOpen ? 'open' : ''}`} role="dialog" aria-modal="true" aria-label="爱丽丝战术实验室" aria-hidden={!labOpen} style={{ '--lab-accent': activeBuild.accent } as React.CSSProperties}>
@@ -810,18 +795,14 @@ export default function Home() {
       )}
       {easterEggOpen && (
         <div className="final-easter-egg" role="dialog" aria-modal="true" aria-labelledby="final-egg-title" onClick={() => setEasterEggOpen(false)}>
+          <img className="egg-full-image" src={assetUrl('/cp/final-passport-easter-egg.png')} alt="星空舞会中，身着相衬礼服的成年爱丽丝与克劳德亲密对视" />
+          <div className="egg-vignette" aria-hidden="true" />
           <div className="egg-flash" aria-hidden="true" />
+          <div className="egg-rays" aria-hidden="true">{Array.from({ length: 12 }).map((_, index) => <i key={index} style={{ transform: `rotate(${index * 30}deg)` }} />)}</div>
+          <div className="egg-rings" aria-hidden="true"><i /><i /><i /></div>
           <div className="egg-particles" aria-hidden="true">{Array.from({ length: 28 }).map((_, index) => <i key={index} style={{ left: `${(index * 37) % 100}%`, animationDelay: `${(index % 9) * -.42}s`, animationDuration: `${4.6 + (index % 6) * .55}s` }} />)}</div>
           <button type="button" className="egg-close" onClick={() => setEasterEggOpen(false)} aria-label="关闭最终彩蛋">×</button>
-          <figure onClick={(event) => event.stopPropagation()}>
-            <div className="egg-image"><img src={assetUrl('/cp/final-passport-easter-egg.png')} alt="星空舞会中，身着相衬礼服的成年爱丽丝与克劳德亲密对视" /><span aria-hidden="true" /></div>
-            <figcaption>
-              <small>PASSPORT COMPLETE · 20 / 20</small>
-              <h2 id="final-egg-title">花海尽头，<br /><em>只剩彼此。</em></h2>
-              <p>你找齐了散落在档案馆里的全部印记，也让这场未写进正篇的星空舞会，终于被星球记住。</p>
-              <button type="button" onClick={() => setEasterEggOpen(false)}>把这一刻收进护照 <span>✦</span></button>
-            </figcaption>
-          </figure>
+          <div className="egg-minimal-copy" onClick={(event) => event.stopPropagation()}><small>PASSPORT COMPLETE · 20 / 20</small><h2 id="final-egg-title">花海尽头，<em>只剩彼此。</em></h2><button type="button" onClick={() => setEasterEggOpen(false)}>珍藏这一刻 ✦</button></div>
         </div>
       )}
     </main>
