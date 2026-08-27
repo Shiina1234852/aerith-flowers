@@ -537,8 +537,8 @@ export default function Home() {
         <div className="arsenal-shell">
           <div className="weapon-index" role="tablist" aria-label="爱丽丝可收集武器">
             {weapons.map((weapon, index) => (
-              <button key={weapon.name} role="tab" aria-selected={activeWeapon === index} className={activeWeapon === index ? 'active' : ''} onClick={() => selectWeapon(index)}>
-                <small>{String(index + 1).padStart(2, '0')}</small><span>{weapon.name}<i>{weapon.cn}</i></span><b className={collectedWeapons.includes(index) ? 'is-collected' : ''}>{collectedWeapons.includes(index) ? '✓' : '○'}</b>
+              <button key={weapon.name} role="tab" aria-selected={activeWeapon === index} aria-label={`${weapon.name}（${weapon.cn}）${collectedWeapons.includes(index) ? '，已取得' : ''}`} className={activeWeapon === index ? 'active' : ''} onClick={() => selectWeapon(index)}>
+                <small>{String(index + 1).padStart(2, '0')}</small><span>{weapon.name}<i>{weapon.cn}</i></span><b className={activeWeapon === index ? 'is-collected' : ''} aria-hidden="true">{activeWeapon === index ? '✓' : '○'}</b>
               </button>
             ))}
           </div>
@@ -832,7 +832,7 @@ export default function Home() {
       )}
       {easterEggOpen && (
         <div className="final-easter-egg" role="dialog" aria-modal="true" aria-labelledby="final-egg-title" onClick={closeEasterEgg}>
-          <img className="egg-full-image" src={assetUrl('/cp/final-passport-easter-egg.png')} alt="星空舞会中，身着相衬礼服的成年爱丽丝与克劳德亲密对视" />
+          <img className="egg-full-image" src={assetUrl('/cp/final-passport-easter-egg-hd.jpg')} alt="星空舞会中，身着相衬礼服的成年爱丽丝与克劳德亲密对视" />
           <div className="egg-vignette" aria-hidden="true" />
           <div className="egg-flash" aria-hidden="true" />
           <div className="egg-light-curtains" aria-hidden="true">{Array.from({ length: 7 }).map((_, index) => <i key={index} style={{ left: `${index * 16 - 5}%`, animationDelay: `${index * -.7}s` }} />)}</div>
