@@ -133,8 +133,7 @@ const aerithTheme = {
   title: '爱丽丝主题曲',
   en: 'AERITH’S THEME',
   artist: '植松伸夫 · FINAL FANTASY VII',
-  neteaseId: '534540545',
-  source: 'https://music.163.com/#/song?id=534540545',
+  audio: '/audio/aerith-theme.mp3',
 };
 
 const buildGoals = [
@@ -192,6 +191,7 @@ export default function Home() {
   const [message, setMessage] = useState('愿每一次相遇，都像花开一样温柔。');
   const [flowers, setFlowers] = useState<PlantedFlower[]>([]);
   const [soundOn, setSoundOn] = useState(false);
+  const [themePlayerVisible, setThemePlayerVisible] = useState(false);
   const [playerExpanded, setPlayerExpanded] = useState(true);
   const [notice, setNotice] = useState('');
   const [activeRelation, setActiveRelation] = useState(0);
@@ -216,6 +216,7 @@ export default function Home() {
   const [selectedCpArt, setSelectedCpArt] = useState<number | null>(null);
   const [easterEggOpen, setEasterEggOpen] = useState(false);
   const [spotlightArt, setSpotlightArt] = useState(9);
+  const themeAudioRef = useRef<HTMLAudioElement | null>(null);
   const easterAudioRef = useRef<HTMLAudioElement | null>(null);
   const easterFadeRef = useRef<number | null>(null);
   const visibleFanArt = fanFilter === '全部' ? fanArtworks : fanArtworks.filter((artwork) => artwork.category === fanFilter);
@@ -235,6 +236,7 @@ export default function Home() {
     } catch { /* private browsing or malformed local state */ }
     return () => {
       if (easterFadeRef.current !== null) window.clearInterval(easterFadeRef.current);
+      themeAudioRef.current?.pause();
       easterAudioRef.current?.pause();
     };
   }, []);
@@ -256,7 +258,7 @@ export default function Home() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') { setSelectedShot(null); setSelectedFanArt(null); setSelectedCpArt(null); setChapterOpen(false); setPassportOpen(false); setLabOpen(false); closeEasterEgg(); setSoundOn(false); }
+      if (event.key === 'Escape') { setSelectedShot(null); setSelectedFanArt(null); setSelectedCpArt(null); setChapterOpen(false); setPassportOpen(false); setLabOpen(false); closeEasterEgg(); stopThemeAudio(false, true); }
       if (selectedShot !== null && event.key === 'ArrowLeft') setSelectedShot((selectedShot - 1 + gallery.length) % gallery.length);
       if (selectedShot !== null && event.key === 'ArrowRight') setSelectedShot((selectedShot + 1) % gallery.length);
       if (selectedFanArt !== null && event.key === 'ArrowLeft') setSelectedFanArt((selectedFanArt - 1 + visibleFanArt.length) % visibleFanArt.length);
@@ -270,16 +272,29 @@ export default function Home() {
   }, [selectedShot, selectedFanArt, selectedCpArt, labOpen, easterEggOpen, visibleFanArt.length]);
 
   function toggleSound() {
-    if (soundOn) {
+    const audio = themeAudioRef.current;
+    if (!audio) return;
+    if (!audio.paused) {
+      audio.pause();
       setSoundOn(false);
     } else {
       setPlayerExpanded(true);
+      setThemePlayerVisible(true);
       setSoundOn(true);
+      void audio.play().catch(() => setSoundOn(false));
     }
   }
 
-  function startEasterEgg() {
+  function stopThemeAudio(reset = false, closePlayer = false) {
+    const audio = themeAudioRef.current;
+    audio?.pause();
+    if (audio && reset) audio.currentTime = 0;
     setSoundOn(false);
+    if (closePlayer) setThemePlayerVisible(false);
+  }
+
+  function startEasterEgg() {
+    stopThemeAudio(true, true);
     setPassportOpen(false);
     setEasterEggOpen(true);
     const audio = easterAudioRef.current;
@@ -380,19 +395,19 @@ export default function Home() {
           {chapters.map((chapter) => <a key={chapter.id} className={activeChapter === chapter.id ? 'active' : ''} href={`#${chapter.id}`} onClick={() => setChapterOpen(false)}><small>{chapter.no}</small><span>{chapter.name}<i>{chapter.en}</i></span><b>{activeChapter === chapter.id ? '●' : '↗'}</b></a>)}
         </nav>
         <button type="button" className="random-route" onClick={() => { const target = chapters[1 + Math.floor(Math.random() * (chapters.length - 1))]; document.getElementById(target.id)?.scrollIntoView({ behavior: 'smooth' }); setChapterOpen(false); }}>✦ 随机走进一段记忆</button>
-        <div className="soundscape-picker theme-picker"><span>OFFICIAL MUSIC PERFORMANCE</span><button type="button" className={soundOn ? 'active' : ''} onClick={toggleSound} style={{ '--tone': '#efc86f' } as React.CSSProperties}><i>{soundOn ? 'Ⅱ' : '♪'}</i><b>{aerithTheme.title}</b><small>{aerithTheme.en} · NOBUO UEMATSU</small></button></div>
+        <div className="soundscape-picker theme-picker"><span>LOCAL PRELOADED AUDIO</span><button type="button" className={soundOn ? 'active' : ''} onClick={toggleSound} style={{ '--tone': '#efc86f' } as React.CSSProperties}><i>{soundOn ? 'Ⅱ' : '♪'}</i><b>{aerithTheme.title}</b><small>{aerithTheme.en} · NOBUO UEMATSU</small></button></div>
         <p>当前阅读进度 · {scrollProgress}%</p>
       </aside>
-      {soundOn && <aside className={`theme-player ${playerExpanded ? 'expanded' : 'collapsed'}`} aria-label="爱丽丝主题曲播放器">
-        <div className="theme-player-heading"><span><i>♪</i><b>{aerithTheme.title}</b><small>NOW PLAYING</small></span><div><button type="button" onClick={() => setPlayerExpanded((current) => !current)} aria-label={playerExpanded ? '收起音乐播放器' : '展开音乐播放器'}>{playerExpanded ? '⌄' : '⌃'}</button><button type="button" onClick={() => setSoundOn(false)} aria-label="关闭音乐播放器">×</button></div></div>
+      <aside className={`theme-player ${themePlayerVisible ? (playerExpanded ? 'expanded' : 'collapsed') : 'dormant'}`} aria-label="爱丽丝主题曲播放器" aria-hidden={!themePlayerVisible}>
+        <div className="theme-player-heading"><span><i>♪</i><b>{aerithTheme.title}</b><small>{soundOn ? 'NOW PLAYING' : 'PAUSED · READY'}</small></span><div><button type="button" onClick={() => setPlayerExpanded((current) => !current)} aria-label={playerExpanded ? '收起音乐播放器' : '展开音乐播放器'}>{playerExpanded ? '⌄' : '⌃'}</button><button type="button" onClick={() => stopThemeAudio(false, true)} aria-label="关闭音乐播放器">×</button></div></div>
         <div className="theme-player-body">
-          <div className="theme-player-title"><div className="theme-disc" aria-hidden="true"><span>✦</span></div><p><b>{aerithTheme.en}</b><small>{aerithTheme.artist}<br />30TH ANNIVERSARY ORIGINAL TRACK</small></p></div>
+          <div className="theme-player-title"><div className={`theme-disc ${soundOn ? '' : 'paused'}`} aria-hidden="true"><span>✦</span></div><p><b>{aerithTheme.en}</b><small>{aerithTheme.artist}<br />LOCAL AUDIO · INSTANT PLAY</small></p></div>
           <div className="theme-player-audio">
-            <iframe title="爱丽丝主题曲纯音频播放器" src={`https://music.163.com/outchain/player?type=2&id=${aerithTheme.neteaseId}&auto=1&height=66`} allow="autoplay" />
+            <audio ref={themeAudioRef} src={assetUrl(aerithTheme.audio)} controls preload="auto" onPlay={() => { setSoundOn(true); setThemePlayerVisible(true); }} onPause={() => setSoundOn(false)} onEnded={() => setSoundOn(false)} />
           </div>
-          <a className="theme-player-source" href={aerithTheme.source} target="_blank" rel="noreferrer">网易云音乐 · 纯音频来源 <span>↗</span></a>
+          <p className="theme-player-local">本地预载 · 点击即可播放</p>
         </div>
-      </aside>}
+      </aside>
       <aside className={`passport-drawer ${passportOpen ? 'open' : ''}`} aria-hidden={!passportOpen}>
         <header><div><small>AERITH ARCHIVE PASSPORT</small><h2>探索护照</h2></div><button type="button" onClick={() => setPassportOpen(false)} aria-label="关闭探索护照">×</button></header>
         <div className="passport-total"><div style={{ '--progress': `${exploredPercent * 3.6}deg` } as React.CSSProperties}><strong>{exploredPercent}</strong><span>%</span></div><p><b>{exploredCount} / {exploredTotal}</b> 个档案印记<br /><small>{exploredPercent === 100 ? '花田已经记住了你的全部旅程。' : '打开内容、切换画面并种花，即可留下印记。'}</small></p></div>
